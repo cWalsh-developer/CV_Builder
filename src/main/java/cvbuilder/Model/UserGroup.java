@@ -18,7 +18,9 @@ public class UserGroup
 {
     /*Defining a list of user profiles which holds data read from a CSV file
     A singleton pattern is used as only one UserGroup is required.*/
-    private List<UserProfiles> userProfiles = new ArrayList();	    
+    private List<UserProfiles> userInfo = new ArrayList();
+        UserProfiles user = new UserProfiles();	  
+
     private static UserGroup Instance;
     
     public static UserGroup getInstance()
@@ -40,12 +42,32 @@ public class UserGroup
       {	  	 	 	      	     	       	   	
         String docLine = b.readLine();
         String[] fields = docLine.split(",");
-        UserProfiles user = new UserProfiles();	  	 	 	      	     	       	   	
-        user.setUserID(fields[0]);
-        user.setUserTitle(fields[1]);
-        user.setUserName(fields[2]);
-//        user.setUserEmail(fields[3]);
-        this.getUserProfiles().add(user);  	 	 	      	     	       	   	
+        if(fields[0].equalsIgnoreCase("user"))
+        {
+            if(fields[1].equalsIgnoreCase("name"))
+            {
+                for(int i=2; i<fields.length;i++)
+                {
+                    user.getUserName().add(fields[i]);
+                } 
+            }
+            else if(fields[1].equalsIgnoreCase("title"))
+            {
+                for(int i=2; i<fields.length;i++)
+                {
+                    user.getUserTitle().add(fields[i]);
+                } 
+            }
+            else if(fields[1].equalsIgnoreCase("email"))
+            {
+                for(int i=2; i<fields.length;i++)
+                {
+                    user.getUserEmail().add(fields[i]);
+                } 
+            }
+                    this.getUserInfo().add(user);
+        } 	 	      	     	       	   	
+//        System.out.println(user);
       }
     }	  	 	 	      	     	       	   	
     catch(Exception e)	  	 	 	      	     	       	   	
@@ -53,14 +75,11 @@ public class UserGroup
       e.printStackTrace();	  	 	 	      	     	       	   	
     }	  	 	 	      	     	       	   	
   }	  	 	 	      	     	       	   	
-  //Getters and setters for the UserProfiles ArrayList
-    public List<UserProfiles> getUserProfiles() 
-    {
-        return userProfiles;
+    public List<UserProfiles> getUserInfo() {
+        return userInfo;
     }
 
-    public void setUserProfiles(List<UserProfiles> userProfile) 
-    {
-        this.userProfiles = userProfile;
+    public void setUserInfo(ArrayList<UserProfiles> userInfo) {
+        this.userInfo = userInfo;
     }
 }

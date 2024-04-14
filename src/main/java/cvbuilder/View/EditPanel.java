@@ -21,6 +21,7 @@ public class EditPanel extends JPanel
     //Defining button group attributes and its getters and setters
    private ButtonGroup buttonGroup = new ButtonGroup();
    private ArrayList<RowPanel> rowPanels = new ArrayList();
+   private int infoCounter = 0;
 
     public ArrayList<RowPanel> getRowPanels() {
         return rowPanels;
@@ -41,52 +42,52 @@ public class EditPanel extends JPanel
         if(tabName.equals("User Name"))
         {
             this.setLayout(new GridLayout(0,1));
-            for (UserProfiles user: UserGroup.getInstance().getUserProfiles())
+            System.out.println(UserGroup.getInstance().getUserInfo().size());
+            for (UserProfiles user: UserGroup.getInstance().getUserInfo())
             {
-                RowPanel rowPanel = new RowPanel(user, user.getUserName());
-                buttonGroup.add(rowPanel.getRadioButton());
-                this.add(rowPanel);
-                rowPanel.setBorder(new TitledBorder(user.getUserID()));
-                this.rowPanels.add(rowPanel);
+                if(this.infoCounter<=user.getUserName().size()-1)
+                {
+                    RowPanel rowPanel = new RowPanel(user,user.getUserName().get(this.infoCounter));
+                    buttonGroup.add(rowPanel.getRadioButton());
+                    this.add(rowPanel);
+                    rowPanel.setBorder(new TitledBorder("Name"));
+                    this.rowPanels.add(rowPanel);
+                    this.infoCounter++;
+                }
             }
         }
         else if (tabName.equals("Email"))
         {
             this.setLayout(new GridLayout(0,1));
-            for (UserProfiles user: UserGroup.getInstance().getUserProfiles())
+            for (UserProfiles user: UserGroup.getInstance().getUserInfo())
             {
-                RowPanel rowPanel = new RowPanel(user, user.getUserEmail());
-                buttonGroup.add(rowPanel.getRadioButton());
-                this.add(rowPanel);
-                rowPanel.setBorder(new TitledBorder(user.getUserID()));
-                this.rowPanels.add(rowPanel);
+                if(this.infoCounter<=user.getUserEmail().size()-1)
+                {
+                    RowPanel rowPanel = new RowPanel(user, user.getUserEmail().get(this.infoCounter));
+                    buttonGroup.add(rowPanel.getRadioButton());
+                    this.add(rowPanel);
+                    rowPanel.setBorder(new TitledBorder("Email"));
+                    this.rowPanels.add(rowPanel);
+                    this.infoCounter++;
+                }
             }
-            
         }
         else if (tabName.equals("Title"))
         {
             this.setLayout(new GridLayout(0,1));
-            for (UserProfiles user: UserGroup.getInstance().getUserProfiles())
+            for (UserProfiles user: UserGroup.getInstance().getUserInfo())
             {
-                RowPanel rowPanel = new RowPanel(user, user.getUserTitle());
-                buttonGroup.add(rowPanel.getRadioButton());
-                this.add(rowPanel);
-                rowPanel.setBorder(new TitledBorder(user.getUserID()));
-                this.rowPanels.add(rowPanel);
+                if(this.infoCounter<=user.getUserTitle().size()-1)
+                {
+                    RowPanel rowPanel = new RowPanel(user, user.getUserTitle().get(this.infoCounter));
+                    System.out.println(user.getUserTitle());
+                    buttonGroup.add(rowPanel.getRadioButton());
+                    this.add(rowPanel);
+                    rowPanel.setBorder(new TitledBorder("Title"));
+                    this.rowPanels.add(rowPanel);
+                    this.infoCounter++;
+                }
             }
-        }
-        else if (tabName.equals("ID"))
-        {
-            this.setLayout(new GridLayout(0,1));
-            for (UserProfiles user: UserGroup.getInstance().getUserProfiles())
-            {
-                RowPanel rowPanel = new RowPanel(user, user.getUserID());
-                buttonGroup.add(rowPanel.getRadioButton());
-                this.add(rowPanel);
-                rowPanel.setBorder(new TitledBorder(user.getUserID()));
-                this.rowPanels.add(rowPanel);
-            }
-            
         }
     }
 }

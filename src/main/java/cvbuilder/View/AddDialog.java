@@ -88,15 +88,14 @@ public class AddDialog extends JDialog implements ActionListener
             else
             {
                 UserProfiles addUser = new UserProfiles();
-                addUser.setUserID(this.userProfileName.getText());
-                addUser.setUserTitle(this.userTitle.getText());
+                addUser.getUserTitle().add(this.userTitle.getText());
                 addUser.setUserName(this.userName.getText());
                 addUser.setUserEmail(this.userEmail.getText());
-                UserGroup.getInstance().getUserProfiles().add(addUser);
+                UserGroup.getInstance().getUserInfo().add(addUser);
                 this.dispose();
                 TabPanel.getInstance().getEditPanels().clear();
                 TabPanel.getInstance().removeAll();
-                TabPanel.getInstance().update();  
+                TabPanel.getInstance().build();  
             }
         }
     }

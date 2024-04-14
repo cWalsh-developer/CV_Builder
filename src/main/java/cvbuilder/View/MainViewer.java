@@ -33,7 +33,7 @@ public class MainViewer extends JFrame implements ActionListener
         this.setTitle("User Profile Builder");
         this.setLayout(new BorderLayout());
         this.setJMenuBar(new MenuBar());
-        this.add(TabPanel.getInstance().update());
+        this.add(TabPanel.getInstance().build());
         this.add(bottomPanel, BorderLayout.SOUTH);
         this.display.setActionCommand("Display");
         this.display.addActionListener(this);

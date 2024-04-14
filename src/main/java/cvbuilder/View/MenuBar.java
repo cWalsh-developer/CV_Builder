@@ -55,12 +55,12 @@ public class MenuBar extends JMenuBar implements ActionListener
            if(returnValue == JFileChooser.APPROVE_OPTION)
            {
                TabPanel.getInstance().removeAll();
-               UserGroup.getInstance().getUserProfiles().clear();
+               UserGroup.getInstance().getUserInfo().clear();
                TabPanel.getInstance().getEditPanels().clear();
                TabPanel.getInstance().revalidate();
                TabPanel.getInstance().repaint();
                UserGroup.getInstance().readCSVFile(filePicked.getSelectedFile().toString());
-               TabPanel.getInstance().update();
+               TabPanel.getInstance().build();
            }
        }
     }

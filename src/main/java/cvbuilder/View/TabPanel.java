@@ -19,17 +19,15 @@ public class TabPanel extends JTabbedPane
         private ArrayList<EditPanel> editPanels = new ArrayList();
 
     
-    public TabPanel update()
+    public TabPanel build()
     {
             this.editPanels.add(new EditPanel("User Name"));
             this.editPanels.add(new EditPanel("Email"));
-            this.editPanels.add(new EditPanel("ID"));
             this.editPanels.add(new EditPanel("Title"));
             
             this.addTab("User Name",this.editPanels.get(0));
             this.addTab("Email",this.editPanels.get(1));
-            this.addTab("ID",this.editPanels.get(2));
-            this.addTab("Title",this.editPanels.get(3));
+            this.addTab("Title",this.editPanels.get(2));
             return this;
     }
     public static TabPanel getInstance()
