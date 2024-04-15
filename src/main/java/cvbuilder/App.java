@@ -23,7 +23,6 @@ public class App {
         Window.setVisible(true);
         Window.setSize(700,600);
         Window.setDefaultCloseOperation(Window.EXIT_ON_CLOSE);
-        System.out.println(UserGroup.getInstance().getUserInfo());
     }
     
 }

@@ -19,7 +19,7 @@ public class UserGroup
     /*Defining a list of user profiles which holds data read from a CSV file
     A singleton pattern is used as only one UserGroup is required.*/
     private List<UserProfiles> userInfo = new ArrayList();
-        UserProfiles user = new UserProfiles();	  
+    UserProfiles user = new UserProfiles();	  
 
     private static UserGroup Instance;
     
@@ -66,8 +66,11 @@ public class UserGroup
                 } 
             }
                     this.getUserInfo().add(user);
-        } 	 	      	     	       	   	
-//        System.out.println(user);
+        }
+        else
+        {
+            //TODO: Start importing the reference data
+        }
       }
     }	  	 	 	      	     	       	   	
     catch(Exception e)	  	 	 	      	     	       	   	
@@ -81,5 +84,8 @@ public class UserGroup
 
     public void setUserInfo(ArrayList<UserProfiles> userInfo) {
         this.userInfo = userInfo;
+    }
+    public UserProfiles getUser() {
+        return user;
     }
 }

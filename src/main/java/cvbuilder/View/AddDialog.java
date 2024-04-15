@@ -26,11 +26,9 @@ public class AddDialog extends JDialog implements ActionListener
   JPanel bottomPanel = new JPanel();
   JPanel leftPanel = new JPanel();
   JPanel rightPanel = new JPanel();
-  JLabel textFieldLabel1 = new JLabel("User Profile");
   JLabel textFieldLabel2 = new JLabel("User Title");
   JLabel textFieldLabel3 = new JLabel("User Name");
-  JLabel textFieldLabel4 = new JLabel("User Email");
-  JTextField userProfileName = new JTextField("User Profile Name");  
+  JLabel textFieldLabel4 = new JLabel("User Email");  
   JTextField userTitle = new JTextField("User Title");  
   JTextField userName = new JTextField("User Name");  
   JTextField userEmail = new JTextField("User Email"); 
@@ -42,13 +40,11 @@ public class AddDialog extends JDialog implements ActionListener
       this.mainPanel.setLayout(new GridLayout(0,2));
       this.leftPanel.setLayout(new GridLayout(0,1));
       this.rightPanel.setLayout(new GridLayout(0,1));
-      this.leftPanel.add(this.textFieldLabel1, BorderLayout.WEST);
       this.leftPanel.add(this.textFieldLabel2, BorderLayout.WEST);
       this.leftPanel.add(this.textFieldLabel3, BorderLayout.WEST);
       this.leftPanel.add(this.textFieldLabel4,  BorderLayout.WEST);
       this.mainPanel.add(this.leftPanel);
       
-      this.rightPanel.add(this.userProfileName,BorderLayout.CENTER);
       this.rightPanel.add(this.userTitle,BorderLayout.CENTER);
       this.rightPanel.add(this.userName, BorderLayout.CENTER);
       this.rightPanel.add(this.userEmail, BorderLayout.CENTER);
@@ -74,11 +70,9 @@ public class AddDialog extends JDialog implements ActionListener
         }
         else
         {
-            if(this.userProfileName.getText().equals("User Profile Name")
-                    || this.userTitle.getText().equals("User Title") 
+            if(this.userTitle.getText().equals("User Title") 
                     || this.userName.getText().equals("User Name") 
                     || this.userEmail.getText().equals("User Email")
-                    || this.userProfileName.getText().trim().equals("")
                     || this.userTitle.getText().trim().equals("") 
                     || this.userName.getText().trim().equals("") 
                     || this.userEmail.getText().trim().equals(""))
@@ -87,15 +81,14 @@ public class AddDialog extends JDialog implements ActionListener
             }
             else
             {
-                UserProfiles addUser = new UserProfiles();
-                addUser.getUserTitle().add(this.userTitle.getText());
-                addUser.setUserName(this.userName.getText());
-                addUser.setUserEmail(this.userEmail.getText());
-                UserGroup.getInstance().getUserInfo().add(addUser);
+                UserGroup.getInstance().getUser().getUserTitle().add(this.userTitle.getText());
+                UserGroup.getInstance().getUser().getUserName().add(this.userName.getText());
+                UserGroup.getInstance().getUser().getUserEmail().add(this.userEmail.getText());
+                System.out.println(UserGroup.getInstance().getUserInfo());
                 this.dispose();
-                TabPanel.getInstance().getEditPanels().clear();
-                TabPanel.getInstance().removeAll();
-                TabPanel.getInstance().build();  
+                MainViewer.getInstance().getMainTab().getEditPanels().clear();
+                MainViewer.getInstance().getMainTab().removeAll();
+                MainViewer.getInstance().getMainTab().update();  
             }
         }
     }

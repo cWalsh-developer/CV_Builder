@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import cvbuilder.Model.UserGroup;
 import cvbuilder.Model.UserProfiles;
+import javax.swing.JCheckBox;
 
 /**
  *
@@ -39,18 +40,33 @@ public class EditPanel extends JPanel
     the data is created into a row panel which is then added to each tabbed window.*/ 
     public EditPanel(String tabName)
     {
-        if(tabName.equals("User Name"))
+        if(tabName.equalsIgnoreCase("User"))
+        {
+            TabPanel userTabPane = new TabPanel("User");
+            this.setLayout(null);
+            this.setBounds(0,0,100,100);
+            userTabPane.setSize(570,470);
+            this.add(userTabPane);
+        }
+        else if(tabName.equalsIgnoreCase("References"))
+        {
+            TabPanel refreeTabPane = new TabPanel("Referee");
+            this.setLayout(null);
+            this.setBounds(0,0,100,100);
+            refreeTabPane.setSize(570,470);
+            this.add(refreeTabPane);
+        }
+        else if(tabName.equals("User Name"))
         {
             this.setLayout(new GridLayout(0,1));
-            System.out.println(UserGroup.getInstance().getUserInfo().size());
+            this.setBorder(new TitledBorder("Name"));
             for (UserProfiles user: UserGroup.getInstance().getUserInfo())
             {
-                if(this.infoCounter<=user.getUserName().size()-1)
+                while(this.infoCounter<=user.getUserName().size()-1)
                 {
                     RowPanel rowPanel = new RowPanel(user,user.getUserName().get(this.infoCounter));
                     buttonGroup.add(rowPanel.getRadioButton());
                     this.add(rowPanel);
-                    rowPanel.setBorder(new TitledBorder("Name"));
                     this.rowPanels.add(rowPanel);
                     this.infoCounter++;
                 }
@@ -59,35 +75,48 @@ public class EditPanel extends JPanel
         else if (tabName.equals("Email"))
         {
             this.setLayout(new GridLayout(0,1));
+            this.setBorder(new TitledBorder("Email"));
+//            this.infoCounter = 0;
             for (UserProfiles user: UserGroup.getInstance().getUserInfo())
             {
-                if(this.infoCounter<=user.getUserEmail().size()-1)
+                 while(this.infoCounter<=user.getUserEmail().size()-1)
                 {
-                    RowPanel rowPanel = new RowPanel(user, user.getUserEmail().get(this.infoCounter));
+                    RowPanel rowPanel = new RowPanel(user,user.getUserEmail().get(this.infoCounter));
                     buttonGroup.add(rowPanel.getRadioButton());
                     this.add(rowPanel);
-                    rowPanel.setBorder(new TitledBorder("Email"));
                     this.rowPanels.add(rowPanel);
                     this.infoCounter++;
+                    System.out.println(this.infoCounter);
                 }
             }
         }
         else if (tabName.equals("Title"))
         {
             this.setLayout(new GridLayout(0,1));
+            this.setBorder(new TitledBorder("Title"));
+            JCheckBox include = new JCheckBox("Include");
+            this.add(include);
             for (UserProfiles user: UserGroup.getInstance().getUserInfo())
             {
-                if(this.infoCounter<=user.getUserTitle().size()-1)
+                 while(this.infoCounter<=user.getUserTitle().size()-1)
                 {
-                    RowPanel rowPanel = new RowPanel(user, user.getUserTitle().get(this.infoCounter));
-                    System.out.println(user.getUserTitle());
+                    RowPanel rowPanel = new RowPanel(user,user.getUserTitle().get(this.infoCounter));
                     buttonGroup.add(rowPanel.getRadioButton());
                     this.add(rowPanel);
-                    rowPanel.setBorder(new TitledBorder("Title"));
                     this.rowPanels.add(rowPanel);
                     this.infoCounter++;
+                    System.out.println(this.infoCounter);
                 }
             }
         }
+        else if (tabName.equals("Referee 1"))
+        {
+            this.setLayout(new GridLayout(0,1));
+            this.setBorder(new TitledBorder("Referee 1"));
+            JCheckBox include = new JCheckBox("Include");
+            this.setLayout(new GridLayout(0,1));
+            this.add(include);
+        }
+        
     }
 }

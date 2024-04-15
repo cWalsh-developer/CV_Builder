@@ -85,9 +85,9 @@ public class RowPanel extends JPanel implements ActionListener
         else if (e.getActionCommand().equals("Delete"))
         {
             UserGroup.getInstance().getUserInfo().remove(this.users);
-            TabPanel.getInstance().getEditPanels().clear();
-            TabPanel.getInstance().removeAll();
-            TabPanel.getInstance().build();
+            MainViewer.getInstance().getMainTab().getEditPanels().clear();
+            MainViewer.getInstance().getMainTab().removeAll();
+            MainViewer.getInstance().getMainTab().update();
         }
     }
     
