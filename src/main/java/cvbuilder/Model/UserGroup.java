@@ -21,6 +21,11 @@ public class UserGroup
     private List<UserProfiles> userInfo = new ArrayList();
     UserProfiles user = new UserProfiles();	  
 
+
+    private List<Reference> refereeInfo = new ArrayList();
+    Reference referees = new Reference();	  
+
+
     private static UserGroup Instance;
     
     public static UserGroup getInstance()
@@ -65,11 +70,24 @@ public class UserGroup
                     user.getUserEmail().add(fields[i]);
                 } 
             }
-                    this.getUserInfo().add(user);
         }
         else
         {
-            //TODO: Start importing the reference data
+            if(fields[1].equalsIgnoreCase("referee 1"))
+            {
+                for(int i=2;i<fields.length;i++)
+                {
+                    referees.getReferee1().add(fields[i]);
+                }
+                System.out.println(referees.getReferee1().size());
+            }
+            else if(fields[1].equalsIgnoreCase("referee 2"))
+            {
+                for(int i=2;i<fields.length;i++)
+                {
+                    referees.getReferee2().add(fields[i]);
+                }
+            }
         }
       }
     }	  	 	 	      	     	       	   	
@@ -77,13 +95,24 @@ public class UserGroup
     {	  	 	 	      	     	       	   	
       e.printStackTrace();	  	 	 	      	     	       	   	
     }	  	 	 	      	     	       	   	
+            this.getUserInfo().add(user);
+            this.getRefereeInfo().add(referees);
+            System.out.println(this.getRefereeInfo());
   }	  	 	 	      	     	       	   	
     public List<UserProfiles> getUserInfo() {
         return userInfo;
     }
-
+    public List<Reference> getRefereeInfo() {
+        return refereeInfo;
+    }
     public void setUserInfo(ArrayList<UserProfiles> userInfo) {
         this.userInfo = userInfo;
+    }
+    public void setReferees(Reference referees) {
+        this.referees = referees;
+    }
+    public void setUser(UserProfiles user) {
+        this.user = user;
     }
     public UserProfiles getUser() {
         return user;

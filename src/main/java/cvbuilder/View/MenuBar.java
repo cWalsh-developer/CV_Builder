@@ -11,6 +11,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import cvbuilder.Model.UserGroup;
+import cvbuilder.Model.UserProfiles;
+import cvbuilder.Model.Reference;
+import java.awt.Component;
 
 /**
  *
@@ -23,7 +26,7 @@ public class MenuBar extends JMenuBar implements ActionListener
     JMenuItem open = new JMenuItem("Open");
     JMenuItem save = new JMenuItem("Save");
     JMenuItem quit = new JMenuItem("Quit");
-    
+    Component mainTabPanel;
     /*A constructor that adds menu items to a menu and adds the menu to the menu bar which is displayed in the MainViewer
     Action Commands and Listeners are set to wire up functionality to each menu item*/
     public MenuBar()
@@ -54,13 +57,12 @@ public class MenuBar extends JMenuBar implements ActionListener
            int returnValue = filePicked.showOpenDialog(this);
            if(returnValue == JFileChooser.APPROVE_OPTION)
            {
-               TabPanel.getInstance().removeAll();
                UserGroup.getInstance().getUserInfo().clear();
-               TabPanel.getInstance().getEditPanels().clear();
-               TabPanel.getInstance().revalidate();
-               TabPanel.getInstance().repaint();
+               UserGroup.getInstance().getRefereeInfo().clear();
+               UserGroup.getInstance().setUser(new UserProfiles());
+               UserGroup.getInstance().setReferees(new Reference());
                UserGroup.getInstance().readCSVFile(filePicked.getSelectedFile().toString());
-               TabPanel.getInstance().build();
+               MainViewer.getInstance().setMainTab(new TabPanel("Main"));
            }
        }
     }

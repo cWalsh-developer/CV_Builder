@@ -86,9 +86,7 @@ public class AddDialog extends JDialog implements ActionListener
                 UserGroup.getInstance().getUser().getUserEmail().add(this.userEmail.getText());
                 System.out.println(UserGroup.getInstance().getUserInfo());
                 this.dispose();
-                MainViewer.getInstance().getMainTab().getEditPanels().clear();
-                MainViewer.getInstance().getMainTab().removeAll();
-                MainViewer.getInstance().getMainTab().update();  
+                MainViewer.getInstance().setMainTab(new TabPanel("Main"));
             }
         }
     }

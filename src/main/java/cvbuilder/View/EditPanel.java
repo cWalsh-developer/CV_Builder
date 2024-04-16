@@ -5,6 +5,7 @@
 package cvbuilder.View;
 
 import java.awt.GridLayout;
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
@@ -23,6 +24,11 @@ public class EditPanel extends JPanel
    private ButtonGroup buttonGroup = new ButtonGroup();
    private ArrayList<RowPanel> rowPanels = new ArrayList();
    private int infoCounter = 0;
+   private JCheckBox include = new JCheckBox("Include");
+
+    public JCheckBox getInclude() {
+        return include;
+    }
 
     public ArrayList<RowPanel> getRowPanels() {
         return rowPanels;
@@ -86,7 +92,6 @@ public class EditPanel extends JPanel
                     this.add(rowPanel);
                     this.rowPanels.add(rowPanel);
                     this.infoCounter++;
-                    System.out.println(this.infoCounter);
                 }
             }
         }
@@ -94,8 +99,12 @@ public class EditPanel extends JPanel
         {
             this.setLayout(new GridLayout(0,1));
             this.setBorder(new TitledBorder("Title"));
-            JCheckBox include = new JCheckBox("Include");
-            this.add(include);
+            JPanel includePanel = new JPanel();
+            includePanel.setLayout(null);
+            includePanel.setBounds(0, 0, WIDTH, HEIGHT);
+            this.include.setSize(100, 20);
+            includePanel.add(this.include, BorderLayout.WEST);
+            this.add(includePanel);
             for (UserProfiles user: UserGroup.getInstance().getUserInfo())
             {
                  while(this.infoCounter<=user.getUserTitle().size()-1)
@@ -105,7 +114,6 @@ public class EditPanel extends JPanel
                     this.add(rowPanel);
                     this.rowPanels.add(rowPanel);
                     this.infoCounter++;
-                    System.out.println(this.infoCounter);
                 }
             }
         }
@@ -113,9 +121,22 @@ public class EditPanel extends JPanel
         {
             this.setLayout(new GridLayout(0,1));
             this.setBorder(new TitledBorder("Referee 1"));
+            JPanel includePanel = new JPanel();
+            includePanel.setLayout(new GridLayout(0,2));
             JCheckBox include = new JCheckBox("Include");
-            this.setLayout(new GridLayout(0,1));
-            this.add(include);
+            includePanel.add(include, BorderLayout.WEST);
+            this.add(includePanel, BorderLayout.PAGE_START);
+            for (UserProfiles user: UserGroup.getInstance().getUserInfo())
+            {
+                 while(this.infoCounter<=user.getUserTitle().size()-1)
+                {
+                    RowPanel rowPanel = new RowPanel(user,user.getUserTitle().get(this.infoCounter));
+                    buttonGroup.add(rowPanel.getRadioButton());
+                    this.add(rowPanel);
+                    this.rowPanels.add(rowPanel);
+                    this.infoCounter++;
+                }
+            }
         }
         
     }

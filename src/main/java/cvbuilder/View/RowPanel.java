@@ -5,6 +5,7 @@
 package cvbuilder.View;
 
 import java.awt.event.ActionEvent;
+import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -12,6 +13,10 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import cvbuilder.Model.UserGroup;
 import cvbuilder.Model.UserProfiles;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 
 /**
  *
@@ -23,8 +28,18 @@ public class RowPanel extends JPanel implements ActionListener
     JButton edit = new JButton("Edit");
     JButton delete = new JButton("Delete");
     JRadioButton radioButton = new JRadioButton();
+    JPanel radioPanel = new JPanel();
+    JPanel buttonPanel = new JPanel();
+    JPanel mainPanel = new JPanel();
+    Container rowPanelEditor;
     //creating an attribute to store the userprofile that is pulled through the constructor
     private UserProfiles users;
+    private String name;
+    private int tabNum;
+
+    public int getTabNum() {
+        return tabNum;
+    }
     
 //Getters and setters for the panel buttons
     public JButton getEdit() {
@@ -55,11 +70,18 @@ public class RowPanel extends JPanel implements ActionListener
     public RowPanel(UserProfiles profiles, String name)
     {
         this.users = profiles;
+        this.name = name;
         radioButton.setText(name);
-        this.add(radioButton);
-        this.add(edit);
+        this.setLayout(new GridLayout(0,2));
+        mainPanel.setLayout(null);
+        mainPanel.setBounds(0, 0, WIDTH, HEIGHT);
+        radioButton.setSize(200, 20);
+        mainPanel.add(radioButton);
+        buttonPanel.add(edit);
+        buttonPanel.add(delete);
+        this.add(mainPanel, BorderLayout.WEST);
+        this.add(buttonPanel, BorderLayout.EAST);
         edit.setActionCommand("Edit");
-        this.add(delete);
         delete.setActionCommand("Delete");
         edit.addActionListener(this);
         delete.addActionListener(this);
@@ -72,6 +94,8 @@ public class RowPanel extends JPanel implements ActionListener
     {
         if(e.getActionCommand().equals("Edit"))
         {
+            
+            System.out.println(this.name);
             String newText = JOptionPane.showInputDialog(this, "Enter New Text:", this.radioButton.getText());
             if(newText == null || newText.equals("") || newText.trim().equals(""))
             {
@@ -84,10 +108,22 @@ public class RowPanel extends JPanel implements ActionListener
         }
         else if (e.getActionCommand().equals("Delete"))
         {
-            UserGroup.getInstance().getUserInfo().remove(this.users);
-            MainViewer.getInstance().getMainTab().getEditPanels().clear();
-            MainViewer.getInstance().getMainTab().removeAll();
-            MainViewer.getInstance().getMainTab().update();
+            if(users.getUserName().contains(this.name))
+            {
+                users.getUserName().remove(this.name);
+            }
+            else if(users.getUserTitle().contains(this.name))
+            {
+                users.getUserTitle().remove(this.name);
+            }
+            else if(users.getUserEmail().contains(this.name))
+            {
+                users.getUserEmail().remove(this.name);
+            }
+            this.rowPanelEditor = this.getParent();
+            this.getParent().remove(this);
+            this.rowPanelEditor.revalidate();
+            this.rowPanelEditor.repaint();
         }
     }
     

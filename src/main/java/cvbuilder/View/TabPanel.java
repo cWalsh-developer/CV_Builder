@@ -4,6 +4,8 @@
  */
 package cvbuilder.View;
 
+import cvbuilder.Model.UserGroup;
+import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.JTabbedPane;
 
@@ -15,9 +17,8 @@ public class TabPanel extends JTabbedPane
 {
     /*A singleton definition is used as there is only one TabbedPanel that is ever required
     edit panel attributes are created and assigned in an update method that can be called whenever a new tabbed panel is required.*/
-        private static TabPanel instance;
         private ArrayList<EditPanel> editPanels = new ArrayList();
-
+        private ArrayList<EditPanel> userEditPanels = new ArrayList();
     
     public TabPanel(String sectionName)
     {
@@ -48,14 +49,10 @@ public class TabPanel extends JTabbedPane
             this.addTab("Referee 2", this.editPanels.get(1));
         }
     }
-    
-    public TabPanel update()
-    {
-        this.editPanels.add(new EditPanel("User"));
-        this.addTab("User",this.editPanels.get(0));
-        return this;
-    }
     public ArrayList<EditPanel> getEditPanels() {
         return editPanels;
+    }
+    public ArrayList<EditPanel> getUserEditPanels() {
+        return userEditPanels;
     }
 }

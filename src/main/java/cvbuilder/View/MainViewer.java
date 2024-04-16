@@ -10,6 +10,7 @@ package cvbuilder.View;
  * This might be useful for defining you Main App Viewer e.g. a JFrame
  */
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,10 +20,14 @@ import javax.swing.JPanel;
 public class MainViewer extends JFrame implements ActionListener
 {
      private static MainViewer instance;
-     JButton display = new JButton("Display Profile");
-     JButton add = new JButton("Add Profile");
+     private int currentTab;
+     JButton display = new JButton("Previous");
+     JButton add = new JButton("Next");
      JPanel bottomPanel = new JPanel();
+     JPanel previousButtonPanel = new JPanel();
+     JPanel nextButtonPanel = new JPanel();
      TabPanel mainTab = new TabPanel("Main");
+
 
     /**
      *
@@ -36,13 +41,17 @@ public class MainViewer extends JFrame implements ActionListener
         this.setLayout(new BorderLayout());
         this.setJMenuBar(new MenuBar());
         this.add(this.mainTab);
+//        bottomPanel.setLayout(new GridLayout(0,1));
+        previousButtonPanel.setLayout(new GridLayout(0,4));
+        previousButtonPanel.add(display);
+        nextButtonPanel.add(add);
+        bottomPanel.add(previousButtonPanel);
+        bottomPanel.add(nextButtonPanel);
         this.add(bottomPanel, BorderLayout.SOUTH);
-        this.display.setActionCommand("Display");
+        this.display.setActionCommand("Next");
         this.display.addActionListener(this);
-        this.add.setActionCommand("Add");
+        this.add.setActionCommand("Previous");
         this.add.addActionListener(this);
-        bottomPanel.add(display);
-        bottomPanel.add(add);
     }
     //Singleton reference for the main viewer
      public static MainViewer getInstance()
@@ -53,6 +62,13 @@ public class MainViewer extends JFrame implements ActionListener
         }
         return instance;
     }
+    public void setMainTab(TabPanel mainTab) {
+        this.remove(this.mainTab);
+        this.mainTab = mainTab;
+        this.add(this.mainTab);
+        this.revalidate();
+        this.repaint();
+    }
     public TabPanel getMainTab() {
         return mainTab;
     }
@@ -61,11 +77,21 @@ public class MainViewer extends JFrame implements ActionListener
     public void actionPerformed(ActionEvent e) 
     {
         //Defining what happens when the add button is selected
-        if(e.getActionCommand().equals("Add"))
+        if(e.getActionCommand().equals("Next"))
         {
-            AddDialog addUserDialog = new AddDialog();
-            addUserDialog.setSize(600,200);
-            addUserDialog.setVisible(true);
+            this.currentTab = this.getMainTab().getSelectedIndex();
+            if(currentTab == 1)
+            {
+                this.getMainTab().setSelectedIndex(0);
+            }
+        }
+        else
+        {
+            this.currentTab = this.getMainTab().getSelectedIndex();
+            if(this.currentTab == 0)
+            {
+                this.getMainTab().setSelectedIndex(1);
+            }
         }
     }
 }
