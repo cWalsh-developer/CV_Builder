@@ -41,10 +41,9 @@ public class MainViewer extends JFrame implements ActionListener
         this.setLayout(new BorderLayout());
         this.setJMenuBar(new MenuBar());
         this.add(this.mainTab);
-//        bottomPanel.setLayout(new GridLayout(0,1));
-        previousButtonPanel.setLayout(new GridLayout(0,4));
-        previousButtonPanel.add(display);
-        nextButtonPanel.add(add);
+        bottomPanel.setLayout(new GridLayout(0,2));
+        previousButtonPanel.add(display,BorderLayout.WEST);
+        nextButtonPanel.add(add,BorderLayout.EAST);
         bottomPanel.add(previousButtonPanel);
         bottomPanel.add(nextButtonPanel);
         this.add(bottomPanel, BorderLayout.SOUTH);

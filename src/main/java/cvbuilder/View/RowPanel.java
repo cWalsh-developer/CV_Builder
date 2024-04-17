@@ -5,7 +5,6 @@
 package cvbuilder.View;
 
 import java.awt.event.ActionEvent;
-import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -13,10 +12,12 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import cvbuilder.Model.UserGroup;
 import cvbuilder.Model.UserProfiles;
-import java.awt.Component;
+import java.awt.Color;
 import java.awt.Container;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -28,9 +29,9 @@ public class RowPanel extends JPanel implements ActionListener
     JButton edit = new JButton("Edit");
     JButton delete = new JButton("Delete");
     JRadioButton radioButton = new JRadioButton();
-    JPanel radioPanel = new JPanel();
     JPanel buttonPanel = new JPanel();
     JPanel mainPanel = new JPanel();
+    JPanel innerButtonPanel = new JPanel();
     Container rowPanelEditor;
     //creating an attribute to store the userprofile that is pulled through the constructor
     private UserProfiles users;
@@ -71,16 +72,39 @@ public class RowPanel extends JPanel implements ActionListener
     {
         this.users = profiles;
         this.name = name;
-        radioButton.setText(name);
+        if(profiles!=null)
+        {
+            radioButton.setText(name);
+            mainPanel.add(radioButton);
+        }
+        else
+        {
+            JTextArea refereeInfo = new JTextArea();
+            refereeInfo.setBorder(BorderFactory.createLineBorder(Color.lightGray, 3));
+            StringBuilder sBuild = new StringBuilder();
+            if(name.equals("referee1"))
+            {
+                String[] newLines = UserGroup.getInstance().getRefereeInfo().get(0).getReferee1().get(0).split("%%%%");
+                for (String newLine : newLines) 
+                {
+                    sBuild.append(newLine).append("\n");
+                }
+                    refereeInfo.setText(sBuild.toString());
+            }
+            
+            mainPanel.add(radioButton);
+            mainPanel.add(refereeInfo);
+            sBuild.setLength(0);
+        }
         this.setLayout(new GridLayout(0,2));
-        mainPanel.setLayout(null);
-        mainPanel.setBounds(0, 0, WIDTH, HEIGHT);
-        radioButton.setSize(200, 20);
-        mainPanel.add(radioButton);
-        buttonPanel.add(edit);
-        buttonPanel.add(delete);
-        this.add(mainPanel, BorderLayout.WEST);
-        this.add(buttonPanel, BorderLayout.EAST);
+        mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.X_AXIS));
+        
+        buttonPanel.setLayout(new GridLayout(0,3));
+        innerButtonPanel.add(edit);
+        innerButtonPanel.add(delete);
+        buttonPanel.add(innerButtonPanel);
+        this.add(mainPanel);
+        this.add(buttonPanel);
         edit.setActionCommand("Edit");
         delete.setActionCommand("Delete");
         edit.addActionListener(this);

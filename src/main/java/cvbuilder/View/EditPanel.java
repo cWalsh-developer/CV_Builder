@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package cvbuilder.View;
-
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
@@ -12,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import cvbuilder.Model.UserGroup;
 import cvbuilder.Model.UserProfiles;
+import java.awt.FlowLayout;
 import javax.swing.JCheckBox;
 
 /**
@@ -50,21 +50,21 @@ public class EditPanel extends JPanel
         {
             TabPanel userTabPane = new TabPanel("User");
             this.setLayout(null);
-            this.setBounds(0,0,100,100);
-            userTabPane.setSize(570,470);
+            this.setBounds(0,0,WIDTH,HEIGHT);
+            userTabPane.setSize(575,445);
             this.add(userTabPane);
         }
         else if(tabName.equalsIgnoreCase("References"))
         {
             TabPanel refreeTabPane = new TabPanel("Referee");
             this.setLayout(null);
-            this.setBounds(0,0,100,100);
-            refreeTabPane.setSize(570,470);
+            this.setBounds(0,0,WIDTH,HEIGHT);
+            refreeTabPane.setSize(575,445);
             this.add(refreeTabPane);
         }
         else if(tabName.equals("User Name"))
         {
-            this.setLayout(new GridLayout(0,1));
+            this.setLayout(new FlowLayout(0));
             this.setBorder(new TitledBorder("Name"));
             for (UserProfiles user: UserGroup.getInstance().getUserInfo())
             {
@@ -80,7 +80,7 @@ public class EditPanel extends JPanel
         }
         else if (tabName.equals("Email"))
         {
-            this.setLayout(new GridLayout(0,1));
+            this.setLayout(new FlowLayout(0));
             this.setBorder(new TitledBorder("Email"));
 //            this.infoCounter = 0;
             for (UserProfiles user: UserGroup.getInstance().getUserInfo())
@@ -97,45 +97,41 @@ public class EditPanel extends JPanel
         }
         else if (tabName.equals("Title"))
         {
-            this.setLayout(new GridLayout(0,1));
+            this.setLayout(new FlowLayout(0));
             this.setBorder(new TitledBorder("Title"));
             JPanel includePanel = new JPanel();
-            includePanel.setLayout(null);
-            includePanel.setBounds(0, 0, WIDTH, HEIGHT);
-            this.include.setSize(100, 20);
+            includePanel.setLayout(new GridLayout(0,1));
             includePanel.add(this.include, BorderLayout.WEST);
-            this.add(includePanel);
             for (UserProfiles user: UserGroup.getInstance().getUserInfo())
             {
                  while(this.infoCounter<=user.getUserTitle().size()-1)
                 {
                     RowPanel rowPanel = new RowPanel(user,user.getUserTitle().get(this.infoCounter));
                     buttonGroup.add(rowPanel.getRadioButton());
-                    this.add(rowPanel);
+                    includePanel.add(rowPanel);
+                    this.add(includePanel);
                     this.rowPanels.add(rowPanel);
-                    this.infoCounter++;
+
                 }
             }
         }
         else if (tabName.equals("Referee 1"))
         {
-            this.setLayout(new GridLayout(0,1));
+            this.setLayout(new FlowLayout(0,0,0));
             this.setBorder(new TitledBorder("Referee 1"));
             JPanel includePanel = new JPanel();
-            includePanel.setLayout(new GridLayout(0,2));
-            JCheckBox include = new JCheckBox("Include");
-            includePanel.add(include, BorderLayout.WEST);
-            this.add(includePanel, BorderLayout.PAGE_START);
-            for (UserProfiles user: UserGroup.getInstance().getUserInfo())
+            includePanel.setLayout(new GridLayout(0,1));
+            includePanel.add(this.include,BorderLayout.WEST);
+            int n = 0;
+            for (int i =0;i<=UserGroup.getInstance().getRefereeInfo().size();i++)
             {
-                 while(this.infoCounter<=user.getUserTitle().size()-1)
-                {
-                    RowPanel rowPanel = new RowPanel(user,user.getUserTitle().get(this.infoCounter));
+                    RowPanel rowPanel = new RowPanel(null,"referee1");
+                    rowPanel.setSize(WIDTH, 500);
                     buttonGroup.add(rowPanel.getRadioButton());
-                    this.add(rowPanel);
+                    includePanel.add(rowPanel,BorderLayout.WEST);
+                    this.add(includePanel,BorderLayout.NORTH);
                     this.rowPanels.add(rowPanel);
-                    this.infoCounter++;
-                }
+                    n++;
             }
         }
         
