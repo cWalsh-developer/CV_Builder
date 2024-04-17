@@ -79,7 +79,6 @@ public class UserGroup
                 {
                     referees.getReferee1().add(fields[i]);
                 }
-                System.out.println(referees.getReferee1().size());
             }
             else if(fields[1].equalsIgnoreCase("referee 2"))
             {

@@ -68,7 +68,7 @@ public class RowPanel extends JPanel implements ActionListener
     }
     /*RowPanel constructor which sets the users attribute to the current profile
     sets radiobutton text and action commands and listeners to the delete and edit buttons.*/
-    public RowPanel(UserProfiles profiles, String name)
+    public RowPanel(UserProfiles profiles, String name, int n)
     {
         this.users = profiles;
         this.name = name;
@@ -84,17 +84,28 @@ public class RowPanel extends JPanel implements ActionListener
             StringBuilder sBuild = new StringBuilder();
             if(name.equals("referee1"))
             {
-                String[] newLines = UserGroup.getInstance().getRefereeInfo().get(0).getReferee1().get(0).split("%%%%");
+                String[] newLines = UserGroup.getInstance().getRefereeInfo().get(0).getReferee1().get(n).split("%%%%");
                 for (String newLine : newLines) 
                 {
                     sBuild.append(newLine).append("\n");
                 }
                     refereeInfo.setText(sBuild.toString());
+                mainPanel.add(radioButton);
+                mainPanel.add(refereeInfo);
+            }
+            else
+            {
+                String[] newLines = UserGroup.getInstance().getRefereeInfo().get(0).getReferee2().get(n).split("%%%%");
+                for (String newLine : newLines) 
+                {
+                    sBuild.append(newLine).append("\n");
+                }
+                    refereeInfo.setText(sBuild.toString());
+                mainPanel.add(radioButton);
+                mainPanel.add(refereeInfo);
+                
             }
             
-            mainPanel.add(radioButton);
-            mainPanel.add(refereeInfo);
-            sBuild.setLength(0);
         }
         this.setLayout(new GridLayout(0,2));
         mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.X_AXIS));
@@ -119,7 +130,6 @@ public class RowPanel extends JPanel implements ActionListener
         if(e.getActionCommand().equals("Edit"))
         {
             
-            System.out.println(this.name);
             String newText = JOptionPane.showInputDialog(this, "Enter New Text:", this.radioButton.getText());
             if(newText == null || newText.equals("") || newText.trim().equals(""))
             {
@@ -132,17 +142,24 @@ public class RowPanel extends JPanel implements ActionListener
         }
         else if (e.getActionCommand().equals("Delete"))
         {
-            if(users.getUserName().contains(this.name))
+            if(this.users==null)
             {
-                users.getUserName().remove(this.name);
+                    System.out.println(UserGroup.getInstance().getRefereeInfo());   
             }
-            else if(users.getUserTitle().contains(this.name))
+            else
             {
-                users.getUserTitle().remove(this.name);
-            }
-            else if(users.getUserEmail().contains(this.name))
-            {
-                users.getUserEmail().remove(this.name);
+                if(users.getUserName().contains(this.name))
+                {
+                    users.getUserName().remove(this.name);
+                }
+                else if(users.getUserTitle().contains(this.name))
+                {
+                    users.getUserTitle().remove(this.name);
+                }
+                else if(users.getUserEmail().contains(this.name))
+                {
+                    users.getUserEmail().remove(this.name);
+                }
             }
             this.rowPanelEditor = this.getParent();
             this.getParent().remove(this);

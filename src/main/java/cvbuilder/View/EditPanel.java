@@ -70,7 +70,7 @@ public class EditPanel extends JPanel
             {
                 while(this.infoCounter<=user.getUserName().size()-1)
                 {
-                    RowPanel rowPanel = new RowPanel(user,user.getUserName().get(this.infoCounter));
+                    RowPanel rowPanel = new RowPanel(user,user.getUserName().get(this.infoCounter),0);
                     buttonGroup.add(rowPanel.getRadioButton());
                     this.add(rowPanel);
                     this.rowPanels.add(rowPanel);
@@ -82,12 +82,11 @@ public class EditPanel extends JPanel
         {
             this.setLayout(new FlowLayout(0));
             this.setBorder(new TitledBorder("Email"));
-//            this.infoCounter = 0;
             for (UserProfiles user: UserGroup.getInstance().getUserInfo())
             {
                  while(this.infoCounter<=user.getUserEmail().size()-1)
                 {
-                    RowPanel rowPanel = new RowPanel(user,user.getUserEmail().get(this.infoCounter));
+                    RowPanel rowPanel = new RowPanel(user,user.getUserEmail().get(this.infoCounter),0);
                     buttonGroup.add(rowPanel.getRadioButton());
                     this.add(rowPanel);
                     this.rowPanels.add(rowPanel);
@@ -106,12 +105,12 @@ public class EditPanel extends JPanel
             {
                  while(this.infoCounter<=user.getUserTitle().size()-1)
                 {
-                    RowPanel rowPanel = new RowPanel(user,user.getUserTitle().get(this.infoCounter));
+                    RowPanel rowPanel = new RowPanel(user,user.getUserTitle().get(this.infoCounter),0);
                     buttonGroup.add(rowPanel.getRadioButton());
                     includePanel.add(rowPanel);
                     this.add(includePanel);
                     this.rowPanels.add(rowPanel);
-
+                    this.infoCounter++;
                 }
             }
         }
@@ -125,7 +124,7 @@ public class EditPanel extends JPanel
             int n = 0;
             for (int i =0;i<=UserGroup.getInstance().getRefereeInfo().size();i++)
             {
-                    RowPanel rowPanel = new RowPanel(null,"referee1");
+                    RowPanel rowPanel = new RowPanel(null,"referee1", n);
                     rowPanel.setSize(WIDTH, 500);
                     buttonGroup.add(rowPanel.getRadioButton());
                     includePanel.add(rowPanel,BorderLayout.WEST);
@@ -133,6 +132,26 @@ public class EditPanel extends JPanel
                     this.rowPanels.add(rowPanel);
                     n++;
             }
+        }
+        else
+        {
+            this.setLayout(new FlowLayout(0,0,0));
+            this.setBorder(new TitledBorder("Referee 1"));
+            JPanel includePanel = new JPanel();
+            includePanel.setLayout(new GridLayout(0,1));
+            includePanel.add(this.include,BorderLayout.WEST);
+            int n = 0;
+            for (int i =0;i<=UserGroup.getInstance().getRefereeInfo().size();i++)
+            {
+                    RowPanel rowPanel = new RowPanel(null,"referee2", n);
+                    rowPanel.setSize(WIDTH, 500);
+                    buttonGroup.add(rowPanel.getRadioButton());
+                    includePanel.add(rowPanel,BorderLayout.WEST);
+                    this.add(includePanel,BorderLayout.NORTH);
+                    this.rowPanels.add(rowPanel);
+                    n++;
+            }
+            
         }
         
     }
