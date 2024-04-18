@@ -22,7 +22,6 @@ public class TabPanel extends JTabbedPane
     
     public TabPanel(String sectionName)
     {
-        this.setSize(700,600);
         if(sectionName.equalsIgnoreCase("Main"))
         {
             this.editPanels.add(new EditPanel("User"));

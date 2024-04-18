@@ -12,12 +12,16 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import cvbuilder.Model.UserGroup;
 import cvbuilder.Model.UserProfiles;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JLabel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 /**
  *
@@ -32,6 +36,7 @@ public class RowPanel extends JPanel implements ActionListener
     JPanel buttonPanel = new JPanel();
     JPanel mainPanel = new JPanel();
     JPanel innerButtonPanel = new JPanel();
+    JTextField addUserField = new JTextField(null,null,20);
     Container rowPanelEditor;
     //creating an attribute to store the userprofile that is pulled through the constructor
     private UserProfiles users;
@@ -74,8 +79,17 @@ public class RowPanel extends JPanel implements ActionListener
         this.name = name;
         if(profiles!=null)
         {
-            radioButton.setText(name);
-            mainPanel.add(radioButton);
+            if(n == -1)
+            {
+//                mainPanel.add(new JLabel("       "));
+                mainPanel.add(this.addUserField);
+                mainPanel.add(new JButton("Add")); 
+            }
+            else
+            {
+                radioButton.setText(name);
+                mainPanel.add(radioButton);
+            }
         }
         else
         {
@@ -84,6 +98,14 @@ public class RowPanel extends JPanel implements ActionListener
             StringBuilder sBuild = new StringBuilder();
             if(name.equals("referee1"))
             {
+                if(n == -1)
+                {
+                    mainPanel.add(new JLabel("       "));
+                    mainPanel.add(refereeInfo);
+                    mainPanel.add(new JButton("Add"));
+                }
+                else
+                {
                 String[] newLines = UserGroup.getInstance().getRefereeInfo().get(0).getReferee1().get(n).split("%%%%");
                 for (String newLine : newLines) 
                 {
@@ -91,18 +113,28 @@ public class RowPanel extends JPanel implements ActionListener
                 }
                     refereeInfo.setText(sBuild.toString());
                 mainPanel.add(radioButton);
-                mainPanel.add(refereeInfo);
+                mainPanel.add(refereeInfo);    
+                }
             }
             else
             {
-                String[] newLines = UserGroup.getInstance().getRefereeInfo().get(0).getReferee2().get(n).split("%%%%");
-                for (String newLine : newLines) 
+                if(n == -1)
                 {
-                    sBuild.append(newLine).append("\n");
+                    mainPanel.add(new JLabel("      "));
+                    mainPanel.add(refereeInfo);
+                    mainPanel.add(new JButton("Add"));
                 }
-                    refereeInfo.setText(sBuild.toString());
-                mainPanel.add(radioButton);
-                mainPanel.add(refereeInfo);
+                else
+                {
+                    String[] newLines = UserGroup.getInstance().getRefereeInfo().get(0).getReferee2().get(n).split("%%%%");
+                    for (String newLine : newLines) 
+                    {
+                        sBuild.append(newLine).append("\n");
+                    }
+                        refereeInfo.setText(sBuild.toString());
+                    mainPanel.add(radioButton);
+                    mainPanel.add(refereeInfo);
+                }
                 
             }
             
@@ -110,12 +142,15 @@ public class RowPanel extends JPanel implements ActionListener
         this.setLayout(new GridLayout(0,2));
         mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.X_AXIS));
         
-        buttonPanel.setLayout(new GridLayout(0,3));
+        buttonPanel.setLayout(new GridLayout(0,2));
         innerButtonPanel.add(edit);
         innerButtonPanel.add(delete);
         buttonPanel.add(innerButtonPanel);
         this.add(mainPanel);
-        this.add(buttonPanel);
+        if(n!=-1)
+        {
+            this.add(buttonPanel);
+        }
         edit.setActionCommand("Edit");
         delete.setActionCommand("Delete");
         edit.addActionListener(this);

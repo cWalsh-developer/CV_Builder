@@ -37,7 +37,7 @@ public class MainViewer extends JFrame implements ActionListener
     public MainViewer() throws HeadlessException
     {
         //Setting main panel border and layout properties and adding a menu bar and tabbed pan to the main window
-        this.setTitle("User Profile Builder");
+        this.setTitle("CV Builder");
         this.setLayout(new BorderLayout());
         this.setJMenuBar(new MenuBar());
         this.add(this.mainTab);

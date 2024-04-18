@@ -14,6 +14,7 @@ import cvbuilder.Model.UserProfiles;
 import java.awt.FlowLayout;
 import javax.swing.JCheckBox;
 
+
 /**
  *
  * @author Connor
@@ -25,6 +26,7 @@ public class EditPanel extends JPanel
    private ArrayList<RowPanel> rowPanels = new ArrayList();
    private int infoCounter = 0;
    private JCheckBox include = new JCheckBox("Include");
+   private int k = -1;
 
     public JCheckBox getInclude() {
         return include;
@@ -51,7 +53,7 @@ public class EditPanel extends JPanel
             TabPanel userTabPane = new TabPanel("User");
             this.setLayout(null);
             this.setBounds(0,0,WIDTH,HEIGHT);
-            userTabPane.setSize(575,445);
+            userTabPane.setSize(710,845);
             this.add(userTabPane);
         }
         else if(tabName.equalsIgnoreCase("References"))
@@ -59,7 +61,7 @@ public class EditPanel extends JPanel
             TabPanel refreeTabPane = new TabPanel("Referee");
             this.setLayout(null);
             this.setBounds(0,0,WIDTH,HEIGHT);
-            refreeTabPane.setSize(575,445);
+            refreeTabPane.setSize(710,845);
             this.add(refreeTabPane);
         }
         else if(tabName.equals("User Name"))
@@ -71,10 +73,17 @@ public class EditPanel extends JPanel
                 while(this.infoCounter<=user.getUserName().size()-1)
                 {
                     RowPanel rowPanel = new RowPanel(user,user.getUserName().get(this.infoCounter),0);
+                    rowPanel.setSize(WIDTH, HEIGHT);
                     buttonGroup.add(rowPanel.getRadioButton());
                     this.add(rowPanel);
                     this.rowPanels.add(rowPanel);
                     this.infoCounter++;
+                }
+                if(this.k ==-1)
+                {
+                    RowPanel addUser = new RowPanel(user,null,this.k); 
+                    this.add(addUser);
+                    this.k++;
                 }
             }
         }
@@ -91,6 +100,12 @@ public class EditPanel extends JPanel
                     this.add(rowPanel);
                     this.rowPanels.add(rowPanel);
                     this.infoCounter++;
+                }
+                if(this.k ==-1)
+                {
+                  RowPanel addUser = new RowPanel(user,null,this.k); 
+                  this.add(addUser);
+                  this.k++;
                 }
             }
         }
@@ -112,6 +127,12 @@ public class EditPanel extends JPanel
                     this.rowPanels.add(rowPanel);
                     this.infoCounter++;
                 }
+                 if(this.k ==-1)
+                {
+                    RowPanel addUser = new RowPanel(user,null,this.k); 
+                    this.add(addUser);
+                    this.k++;
+                }
             }
         }
         else if (tabName.equals("Referee 1"))
@@ -132,11 +153,13 @@ public class EditPanel extends JPanel
                     this.rowPanels.add(rowPanel);
                     n++;
             }
+            RowPanel addPanel = new RowPanel(null,"referee1",this.k);
+            includePanel.add(addPanel);
         }
         else
         {
             this.setLayout(new FlowLayout(0,0,0));
-            this.setBorder(new TitledBorder("Referee 1"));
+            this.setBorder(new TitledBorder("Referee 2"));
             JPanel includePanel = new JPanel();
             includePanel.setLayout(new GridLayout(0,1));
             includePanel.add(this.include,BorderLayout.WEST);
@@ -151,8 +174,8 @@ public class EditPanel extends JPanel
                     this.rowPanels.add(rowPanel);
                     n++;
             }
-            
+            RowPanel addPanel = new RowPanel(null,"referee1",this.k);
+            includePanel.add(addPanel);
         }
-        
     }
 }
