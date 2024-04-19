@@ -12,16 +12,12 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import cvbuilder.Model.UserGroup;
 import cvbuilder.Model.UserProfiles;
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.JLabel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
+
 
 /**
  *
@@ -32,12 +28,15 @@ public class RowPanel extends JPanel implements ActionListener
     //defining edit, delete and radiobutton objects and labling them
     JButton edit = new JButton("Edit");
     JButton delete = new JButton("Delete");
+    JButton add = new JButton("Add");
     JRadioButton radioButton = new JRadioButton();
     JPanel buttonPanel = new JPanel();
     JPanel mainPanel = new JPanel();
     JPanel innerButtonPanel = new JPanel();
-    JTextField addUserField = new JTextField(null,null,20);
     Container rowPanelEditor;
+    JTextArea refereeInfo = new JTextArea();
+    JPanel referenceContainer = new JPanel();
+    
     //creating an attribute to store the userprofile that is pulled through the constructor
     private UserProfiles users;
     private String name;
@@ -77,65 +76,49 @@ public class RowPanel extends JPanel implements ActionListener
     {
         this.users = profiles;
         this.name = name;
+        
         if(profiles!=null)
         {
-            if(n == -1)
-            {
-//                mainPanel.add(new JLabel("       "));
-                mainPanel.add(this.addUserField);
-                mainPanel.add(new JButton("Add")); 
-            }
-            else
-            {
-                radioButton.setText(name);
-                mainPanel.add(radioButton);
-            }
+          radioButton.setText(name);
+          mainPanel.add(radioButton);
         }
         else
         {
-            JTextArea refereeInfo = new JTextArea();
-            refereeInfo.setBorder(BorderFactory.createLineBorder(Color.lightGray, 3));
             StringBuilder sBuild = new StringBuilder();
             if(name.equals("referee1"))
             {
-                if(n == -1)
-                {
-                    mainPanel.add(new JLabel("       "));
-                    mainPanel.add(refereeInfo);
-                    mainPanel.add(new JButton("Add"));
-                }
-                else
-                {
                 String[] newLines = UserGroup.getInstance().getRefereeInfo().get(0).getReferee1().get(n).split("%%%%");
                 for (String newLine : newLines) 
                 {
                     sBuild.append(newLine).append("\n");
                 }
-                    refereeInfo.setText(sBuild.toString());
+                refereeInfo.setText(sBuild.toString());
                 mainPanel.add(radioButton);
-                mainPanel.add(refereeInfo);    
+                referenceContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+                referenceContainer.setLayout(new GridLayout(0,1));
+                referenceContainer.add(refereeInfo);
+                mainPanel.add(referenceContainer);    
+            }
+            else if(name.equals("referee2"))
+            {
+                String[] newLines = UserGroup.getInstance().getRefereeInfo().get(0).getReferee2().get(n).split("%%%%");
+                for (String newLine : newLines) 
+                {
+                    sBuild.append(newLine).append("\n");
                 }
+                refereeInfo.setText(sBuild.toString());
+                mainPanel.add(radioButton);
+                referenceContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+                referenceContainer.setLayout(new GridLayout(0,1));
+                referenceContainer.add(refereeInfo);
+                mainPanel.add(referenceContainer);
+
             }
             else
             {
-                if(n == -1)
-                {
-                    mainPanel.add(new JLabel("      "));
-                    mainPanel.add(refereeInfo);
-                    mainPanel.add(new JButton("Add"));
-                }
-                else
-                {
-                    String[] newLines = UserGroup.getInstance().getRefereeInfo().get(0).getReferee2().get(n).split("%%%%");
-                    for (String newLine : newLines) 
-                    {
-                        sBuild.append(newLine).append("\n");
-                    }
-                        refereeInfo.setText(sBuild.toString());
-                    mainPanel.add(radioButton);
-                    mainPanel.add(refereeInfo);
-                }
-                
+                refereeInfo.setText(name);
+                mainPanel.add(radioButton);
+                mainPanel.add(refereeInfo);
             }
             
         }
@@ -147,14 +130,13 @@ public class RowPanel extends JPanel implements ActionListener
         innerButtonPanel.add(delete);
         buttonPanel.add(innerButtonPanel);
         this.add(mainPanel);
-        if(n!=-1)
-        {
-            this.add(buttonPanel);
-        }
+        this.add(buttonPanel);
         edit.setActionCommand("Edit");
         delete.setActionCommand("Delete");
         edit.addActionListener(this);
         delete.addActionListener(this);
+        this.add.setActionCommand("Add");
+        this.add.addActionListener(this);
         
     }
     

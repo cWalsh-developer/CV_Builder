@@ -35,14 +35,21 @@ public class TabPanel extends JTabbedPane
             this.editPanels.add(new EditPanel("Email"));
             this.editPanels.add(new EditPanel("Title"));
             
+            this.editPanels.get(0).setName("User Name");
+            this.editPanels.get(1).setName("User Email");
+            this.editPanels.get(2).setName("User Title");
+            
             this.addTab("User Name",this.editPanels.get(0));
             this.addTab("Email",this.editPanels.get(1));
             this.addTab("Title",this.editPanels.get(2));
         }
-        else
+        else if(sectionName.equalsIgnoreCase("Referee"))
         {
             this.editPanels.add(new EditPanel("Referee 1"));
             this.editPanels.add(new EditPanel("Referee 2"));
+            
+            this.editPanels.get(0).setName("Referee 1");
+            this.editPanels.get(1).setName("Referee 2");
             
             this.addTab("Referee 1", this.editPanels.get(0));
             this.addTab("Referee 2", this.editPanels.get(1));

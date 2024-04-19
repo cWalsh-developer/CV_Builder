@@ -11,15 +11,25 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import cvbuilder.Model.UserGroup;
 import cvbuilder.Model.UserProfiles;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 
 /**
  *
  * @author Connor
  */
-public class EditPanel extends JPanel
+public class EditPanel extends JPanel implements ActionListener
 {
     //Defining button group attributes and its getters and setters
    private ButtonGroup buttonGroup = new ButtonGroup();
@@ -27,6 +37,14 @@ public class EditPanel extends JPanel
    private int infoCounter = 0;
    private JCheckBox include = new JCheckBox("Include");
    private int k = -1;
+   private EditPanel thisInstance = this;
+   JTextField addUser = new JTextField(null,null,23);
+   JTextArea addReference = new JTextArea(null,0,11);
+   JButton addButton = new JButton("Add");
+   JPanel main = new JPanel();
+   JPanel mainButton = new JPanel();
+   JPanel referenceContainer = new JPanel();
+   JPanel includePanel = new JPanel();
 
     public JCheckBox getInclude() {
         return include;
@@ -53,7 +71,7 @@ public class EditPanel extends JPanel
             TabPanel userTabPane = new TabPanel("User");
             this.setLayout(null);
             this.setBounds(0,0,WIDTH,HEIGHT);
-            userTabPane.setSize(710,845);
+            userTabPane.setSize(900,845);
             this.add(userTabPane);
         }
         else if(tabName.equalsIgnoreCase("References"))
@@ -61,7 +79,7 @@ public class EditPanel extends JPanel
             TabPanel refreeTabPane = new TabPanel("Referee");
             this.setLayout(null);
             this.setBounds(0,0,WIDTH,HEIGHT);
-            refreeTabPane.setSize(710,845);
+            refreeTabPane.setSize(900,845);
             this.add(refreeTabPane);
         }
         else if(tabName.equals("User Name"))
@@ -73,7 +91,6 @@ public class EditPanel extends JPanel
                 while(this.infoCounter<=user.getUserName().size()-1)
                 {
                     RowPanel rowPanel = new RowPanel(user,user.getUserName().get(this.infoCounter),0);
-                    rowPanel.setSize(WIDTH, HEIGHT);
                     buttonGroup.add(rowPanel.getRadioButton());
                     this.add(rowPanel);
                     this.rowPanels.add(rowPanel);
@@ -81,8 +98,11 @@ public class EditPanel extends JPanel
                 }
                 if(this.k ==-1)
                 {
-                    RowPanel addUser = new RowPanel(user,null,this.k); 
-                    this.add(addUser);
+                    main.setLayout(new GridLayout(0,2));
+                    main.add(addUser);
+                    mainButton.add(addButton);
+                    main.add(mainButton);
+                    this.add(main);
                     this.k++;
                 }
             }
@@ -103,9 +123,13 @@ public class EditPanel extends JPanel
                 }
                 if(this.k ==-1)
                 {
-                  RowPanel addUser = new RowPanel(user,null,this.k); 
-                  this.add(addUser);
-                  this.k++;
+//                    RowPanel addUser = new RowPanel(user,null,this.k,this.thisInstance); 
+                    main.setLayout(new GridLayout(0,2));
+                    main.add(addUser);
+                    mainButton.add(addButton);
+                    main.add(mainButton);
+                    this.add(main);
+                    this.k++;
                 }
             }
         }
@@ -127,10 +151,13 @@ public class EditPanel extends JPanel
                     this.rowPanels.add(rowPanel);
                     this.infoCounter++;
                 }
-                 if(this.k ==-1)
+                if(this.k ==-1)
                 {
-                    RowPanel addUser = new RowPanel(user,null,this.k); 
-                    this.add(addUser);
+                    main.setLayout(new GridLayout(0,2));
+                    main.add(addUser);
+                    mainButton.add(addButton);
+                    main.add(mainButton);
+                    this.add(main);
                     this.k++;
                 }
             }
@@ -146,21 +173,30 @@ public class EditPanel extends JPanel
             for (int i =0;i<=UserGroup.getInstance().getRefereeInfo().size();i++)
             {
                     RowPanel rowPanel = new RowPanel(null,"referee1", n);
-                    rowPanel.setSize(WIDTH, 500);
                     buttonGroup.add(rowPanel.getRadioButton());
-                    includePanel.add(rowPanel,BorderLayout.WEST);
-                    this.add(includePanel,BorderLayout.NORTH);
                     this.rowPanels.add(rowPanel);
+                    includePanel.add(rowPanels.get(rowPanels.size()-1),BorderLayout.WEST);
+                    this.add(includePanel,BorderLayout.NORTH);
                     n++;
             }
-            RowPanel addPanel = new RowPanel(null,"referee1",this.k);
-            includePanel.add(addPanel);
+//                    RowPanel addUser = new RowPanel(user,null,this.k,this.thisInstance); 
+            main.setLayout(new BoxLayout(main,BoxLayout.X_AXIS));
+            main.add(new JLabel("       "));
+            referenceContainer.setLayout(new GridLayout(0,1));
+            referenceContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 70));
+            referenceContainer.add(addReference);
+            mainButton.setLayout(new FlowLayout(0));
+            main.add(referenceContainer);
+            mainButton.add(addButton);
+            main.add(mainButton,BorderLayout.WEST);
+            this.k++;
+            includePanel.add(main);
+            this.add(includePanel);
         }
         else
         {
             this.setLayout(new FlowLayout(0,0,0));
             this.setBorder(new TitledBorder("Referee 2"));
-            JPanel includePanel = new JPanel();
             includePanel.setLayout(new GridLayout(0,1));
             includePanel.add(this.include,BorderLayout.WEST);
             int n = 0;
@@ -174,8 +210,72 @@ public class EditPanel extends JPanel
                     this.rowPanels.add(rowPanel);
                     n++;
             }
-            RowPanel addPanel = new RowPanel(null,"referee1",this.k);
-            includePanel.add(addPanel);
+            main.setLayout(new BoxLayout(main,BoxLayout.X_AXIS));
+            main.add(new JLabel("       "));
+            referenceContainer.setLayout(new GridLayout(0,1));
+            referenceContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 70));
+            referenceContainer.add(addReference);
+            mainButton.setLayout(new FlowLayout(0));
+            main.add(referenceContainer);
+            mainButton.add(addButton);
+            main.add(mainButton,BorderLayout.WEST);
+            this.k++;
+            includePanel.add(main);
+            this.add(includePanel);
+        }
+        this.addButton.setActionCommand("Add");
+        this.addButton.addActionListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getActionCommand().equals("Add"))
+        {
+            switch (this.getName()) {
+                case "User Name" -> {
+                    RowPanel addedName = new RowPanel(UserGroup.getInstance().getUserInfo().get(0),this.addUser.getText(),0);
+                    buttonGroup.add(addedName.getRadioButton());
+                    this.add(addedName, this.getComponentCount()-1);
+                    this.revalidate();
+                    this.repaint();
+                }
+                case "User Email" -> {
+                    RowPanel addedEmail = new RowPanel(UserGroup.getInstance().getUserInfo().get(0),this.addUser.getText(),0);
+                    buttonGroup.add(addedEmail.getRadioButton());
+                    this.add(addedEmail, this.getComponentCount()-1);
+                    this.revalidate();
+                    this.repaint();
+                }
+                case "User Title" -> {
+                    RowPanel addedTitle = new RowPanel(UserGroup.getInstance().getUserInfo().get(0),this.addUser.getText(),0);
+                    buttonGroup.add(addedTitle.getRadioButton());
+                    this.add(addedTitle, this.getComponentCount()-1);
+                    this.revalidate();
+                    this.repaint();
+                }
+                case "Referee 1" ->                     {
+                        //                System.out.println(this.main.getParent().getComponentCount());
+                        RowPanel addedReferee1 = new RowPanel(null,this.addReference.getText(),0);
+                        buttonGroup.add(addedReferee1.getRadioButton());
+                        addedReferee1.setBorder(BorderFactory.createEmptyBorder(1, 0, 10, 0));
+                        this.main.getParent().add(addedReferee1,this.main.getParent().getComponentCount()-1);
+                        this.addReference.setText("");
+                        this.revalidate();
+                        this.repaint();
+                    }
+                case "Referee 2" ->                     {
+                        //                System.out.println(this.main.getParent().getComponentCount());
+                        RowPanel addedReferee1 = new RowPanel(null,this.addReference.getText(),0);
+                        buttonGroup.add(addedReferee1.getRadioButton());
+                        addedReferee1.setBorder(BorderFactory.createEmptyBorder(1, 0, 10, 0));
+                        this.main.getParent().add(addedReferee1,this.main.getParent().getComponentCount()-1);
+                        this.addReference.setText("");
+                        this.revalidate();
+                        this.repaint();
+                    }
+                default -> {
+                }
+            }
         }
     }
 }

@@ -89,14 +89,14 @@ public class UserGroup
             }
         }
       }
+            this.getUserInfo().add(user);
+            this.getRefereeInfo().add(referees);
+            System.out.println(this.getRefereeInfo());
     }	  	 	 	      	     	       	   	
     catch(Exception e)	  	 	 	      	     	       	   	
     {	  	 	 	      	     	       	   	
       e.printStackTrace();	  	 	 	      	     	       	   	
     }	  	 	 	      	     	       	   	
-            this.getUserInfo().add(user);
-            this.getRefereeInfo().add(referees);
-            System.out.println(this.getRefereeInfo());
   }	  	 	 	      	     	       	   	
     public List<UserProfiles> getUserInfo() {
         return userInfo;
