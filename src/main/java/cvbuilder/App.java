@@ -21,7 +21,7 @@ public class App {
         UserGroup.getInstance().readCSVFile("data/cv_repo_3.csv");
         MainViewer Window =MainViewer.getInstance();
         Window.setVisible(true);
-        Window.setSize(1200,1000);
+        Window.setSize(900,1000);
         Window.setDefaultCloseOperation(Window.EXIT_ON_CLOSE);
     }
     

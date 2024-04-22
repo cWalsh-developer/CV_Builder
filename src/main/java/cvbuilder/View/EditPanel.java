@@ -71,7 +71,7 @@ public class EditPanel extends JPanel implements ActionListener
             TabPanel userTabPane = new TabPanel("User");
             this.setLayout(null);
             this.setBounds(0,0,WIDTH,HEIGHT);
-            userTabPane.setSize(900,845);
+            userTabPane.setSize(700,845);
             this.add(userTabPane);
         }
         else if(tabName.equalsIgnoreCase("References"))
@@ -79,7 +79,7 @@ public class EditPanel extends JPanel implements ActionListener
             TabPanel refreeTabPane = new TabPanel("Referee");
             this.setLayout(null);
             this.setBounds(0,0,WIDTH,HEIGHT);
-            refreeTabPane.setSize(900,845);
+            refreeTabPane.setSize(700,845);
             this.add(refreeTabPane);
         }
         else if(tabName.equals("User Name"))
