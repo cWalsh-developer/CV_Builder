@@ -120,14 +120,15 @@ public class UserGroup
 
     /**
      *
-     * @param secondFileName
+     * @param fileName
      */
-  public void readCSVFile(String secondFileName)	  	 	 	      	     	       	   	
+  public void readCSVFile(String fileName)	  	 	 	      	     	       	   	
   {	  	 	 	      	     	       	   	
     try (
-            FileReader file = new FileReader(secondFileName); 	  	 	 	      	     	       	   	
+            FileReader file = new FileReader(fileName); 	  	 	 	      	     	       	   	
             BufferedReader b = new BufferedReader(file);)
-            {	  	 	 	      	     	       	   	
+            {
+                
       while (b.ready())	  	 	 	      	     	       	   	
       {	  	 	 	      	     	       	   	
         String docLine = b.readLine();
