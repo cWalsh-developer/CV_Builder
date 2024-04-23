@@ -25,38 +25,6 @@ public class UserGroup
     private List<UserProfiles> userInfo = new ArrayList();
     UserProfiles user = new UserProfiles();	  
 
-    public String getCvSelectedName() {
-        return cvSelectedName;
-    }
-
-    public void setCvSelectedName(String cvSelectedName) {
-        this.cvSelectedName = cvSelectedName;
-    }
-
-    public String getCvSelectedTitle() {
-        return cvSelectedTitle;
-    }
-
-    public void setCvSelectedTitle(String cvSelectedTitle) {
-        this.cvSelectedTitle = cvSelectedTitle;
-    }
-
-    public String getCvSelectedEmail() {
-        return cvSelectedEmail;
-    }
-
-    public void setCvSelectedEmail(String cvSelectedEmail) {
-        this.cvSelectedEmail = cvSelectedEmail;
-    }
-
-    public String getCvSelectedReferee1() {
-        return cvSelectedReferee1;
-    }
-
-    public void setCvSelectedReferee1(String cvSelectedReference) {
-        this.cvSelectedReferee1 = cvSelectedReference;
-    }
-    
     private String cvSelectedName;
     private String cvSelectedTitle;
     private String cvSelectedEmail;
@@ -64,39 +32,6 @@ public class UserGroup
     private String cvSelectedReferee2;
     private String cvReference1Placeholder;
     private String cvReference2Placeholder;
-
-    public String getCvReference2Placeholder() {
-        return cvReference2Placeholder;
-    }
-
-    public void setCvReference2Placeholder(String cvReference2Placeholder) {
-        this.cvReference2Placeholder = cvReference2Placeholder;
-    }
-    private String cvTitlePlaceholder;
-
-    public String getCvSelectedReferee2() {
-        return cvSelectedReferee2;
-    }
-
-    public void setCvSelectedReferee2(String cvSelectedReferee2) {
-        this.cvSelectedReferee2 = cvSelectedReferee2;
-    }
-
-    public String getCvReference1Placeholder() {
-        return cvReference1Placeholder;
-    }
-
-    public void setCvReference1Placeholder(String cvReferencePlaceholder) {
-        this.cvReference1Placeholder = cvReferencePlaceholder;
-    }
-
-    public String getCvTitlePlaceholder() {
-        return cvTitlePlaceholder;
-    }
-
-    public void setCvTitlePlaceholder(String cvTitlePlaceholder) {
-        this.cvTitlePlaceholder = cvTitlePlaceholder;
-    }
 
     private List<Reference> refereeInfo = new ArrayList();
     Reference referees = new Reference();	  
@@ -177,7 +112,6 @@ public class UserGroup
       }
             this.getUserInfo().add(user);
             this.getRefereeInfo().add(referees);
-            System.out.println(this.getRefereeInfo());
     }	  	 	 	      	     	       	   	
     catch(Exception e)	  	 	 	      	     	       	   	
     {	  	 	 	      	     	       	   	
@@ -191,6 +125,135 @@ public class UserGroup
      */
     public List<UserProfiles> getUserInfo() {
         return userInfo;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getCvSelectedName() {
+        return cvSelectedName;
+    }
+
+    /**
+     *
+     * @param cvSelectedName
+     */
+    public void setCvSelectedName(String cvSelectedName) {
+        this.cvSelectedName = cvSelectedName;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getCvSelectedTitle() {
+        return cvSelectedTitle;
+    }
+
+    /**
+     *
+     * @param cvSelectedTitle
+     */
+    public void setCvSelectedTitle(String cvSelectedTitle) {
+        this.cvSelectedTitle = cvSelectedTitle;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getCvSelectedEmail() {
+        return cvSelectedEmail;
+    }
+
+    /**
+     *
+     * @param cvSelectedEmail
+     */
+    public void setCvSelectedEmail(String cvSelectedEmail) {
+        this.cvSelectedEmail = cvSelectedEmail;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getCvSelectedReferee1() {
+        return cvSelectedReferee1;
+    }
+
+    /**
+     *
+     * @param cvSelectedReference
+     */
+    public void setCvSelectedReferee1(String cvSelectedReference) {
+        this.cvSelectedReferee1 = cvSelectedReference;
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public String getCvReference2Placeholder() {
+        return cvReference2Placeholder;
+    }
+
+    /**
+     *
+     * @param cvReference2Placeholder
+     */
+    public void setCvReference2Placeholder(String cvReference2Placeholder) {
+        this.cvReference2Placeholder = cvReference2Placeholder;
+    }
+    private String cvTitlePlaceholder;
+
+    /**
+     *
+     * @return
+     */
+    public String getCvSelectedReferee2() {
+        return cvSelectedReferee2;
+    }
+
+    /**
+     *
+     * @param cvSelectedReferee2
+     */
+    public void setCvSelectedReferee2(String cvSelectedReferee2) {
+        this.cvSelectedReferee2 = cvSelectedReferee2;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getCvReference1Placeholder() {
+        return cvReference1Placeholder;
+    }
+
+    /**
+     *
+     * @param cvReferencePlaceholder
+     */
+    public void setCvReference1Placeholder(String cvReferencePlaceholder) {
+        this.cvReference1Placeholder = cvReferencePlaceholder;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getCvTitlePlaceholder() {
+        return cvTitlePlaceholder;
+    }
+
+    /**
+     *
+     * @param cvTitlePlaceholder
+     */
+    public void setCvTitlePlaceholder(String cvTitlePlaceholder) {
+        this.cvTitlePlaceholder = cvTitlePlaceholder;
     }
 
     /**

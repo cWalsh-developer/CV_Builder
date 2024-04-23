@@ -38,10 +38,18 @@ public class RowPanel extends JPanel implements ActionListener
     Container rowPanelEditor;
     JTextArea refereeInfo = new JTextArea();
 
+    /**
+     *
+     * @return
+     */
     public JTextArea getRefereeInfo() {
         return refereeInfo;
     }
 
+    /**
+     *
+     * @param refereeInfo
+     */
     public void setRefereeInfo(JTextArea refereeInfo) {
         this.refereeInfo = refereeInfo;
     }
@@ -266,12 +274,10 @@ public class RowPanel extends JPanel implements ActionListener
                     if(this.referees.getReferee1().contains(convertedText))
                     {
                         this.referees.getReferee1().remove(convertedText);
-                        System.out.println(UserGroup.getInstance().getRefereeInfo());
                     }
                     else if(this.referees.getReferee2().contains(convertedText))
                     {
                         this.referees.getReferee2().remove(convertedText);
-                        System.out.println(UserGroup.getInstance().getRefereeInfo());
                     }
                     this.rowPanelEditor = this.getParent();
                     this.getParent().remove(this);

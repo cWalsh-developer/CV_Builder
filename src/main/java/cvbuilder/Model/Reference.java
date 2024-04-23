@@ -16,22 +16,42 @@ public class Reference
     private List<String> referee1 = new ArrayList();
     private List<String> referee2 = new ArrayList();
 
+    /**
+     *
+     * @return
+     */
     public List<String> getReferee1() {
         return referee1;
     }
 
+    /**
+     *
+     * @param referee1
+     */
     public void setReferee1(List<String> referee1) {
         this.referee1 = referee1;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<String> getReferee2() {
         return referee2;
     }
 
+    /**
+     *
+     * @param referee2
+     */
     public void setReferee2(List<String> referee2) {
         this.referee2 = referee2;
     }
     
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString()
     {
