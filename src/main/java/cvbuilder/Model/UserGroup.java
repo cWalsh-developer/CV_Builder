@@ -21,7 +21,8 @@ import java.io.BufferedReader;
 public class UserGroup 
 {
     /*Defining a list of user profiles which holds data read from a CSV file
-    A singleton pattern is used as only one UserGroup is required.*/
+    A singleton pattern is used as only one UserGroup is required. Alongside a list of user data, 
+    data for the respective CV reference sections and cv selection choices are stored.*/
     private List<UserProfiles> userInfo = new ArrayList();
     UserProfiles user = new UserProfiles();	  
 
@@ -51,7 +52,8 @@ public class UserGroup
         }
         return Instance;
     }
-//Reading the data from the parsed CSV file and adding it to a UserProfiles object which is then stored into the ArayList	  	 	 	      	     	       	   	
+//Reading the data from the parsed CSV file and adding it to a UserProfiles object which is then stored into the ArayList
+//Reference data read from the file is parsed into its own reference model here and manipulated across classes to provide proper display
 
     /**
      *

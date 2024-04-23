@@ -57,7 +57,7 @@ public class MainViewer extends JFrame implements ActionListener
         this.add.setActionCommand("Previous");
         this.add.addActionListener(this);
     }
-    //Singleton reference for the main viewer
+    //Singleton reference is used for the main viewer
 
     /**
      *

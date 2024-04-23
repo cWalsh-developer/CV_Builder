@@ -123,7 +123,7 @@ public class RowPanel extends JPanel implements ActionListener
         this.radioButton = radioButton;
     }
     /*RowPanel constructor which sets the users attribute to the current profile
-    sets radiobutton text and action commands and listeners to the delete and edit buttons.*/
+    sets radiobutton text and action commands and listeners to the delete and edit buttons. The constructor also handles reference data displaying*/
 
     /**
      *
@@ -148,6 +148,7 @@ public class RowPanel extends JPanel implements ActionListener
         }
         else
         {
+            /*Referee data is built from here*/
             if(name.equals("referee1"))
             {
                 String replace = UserGroup.getInstance().getRefereeInfo().get(0).getReferee1().get(n).replace("%%%%", "\n");
@@ -173,6 +174,7 @@ public class RowPanel extends JPanel implements ActionListener
             }
             else
             {
+                /*Standard user data is build from here*/
                 refereeInfo.setText(name);
                 mainPanel.add(radioButton);
                 mainPanel.add(refereeInfo);

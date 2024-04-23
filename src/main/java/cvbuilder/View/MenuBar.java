@@ -61,7 +61,12 @@ public class MenuBar extends JMenuBar implements ActionListener
         this.quit.addActionListener(this);
     }
 /*Creating functionality to close the window when "quit" is selected and
-    functionality to replace the window content with a new CSV file content*/
+    functionality to replace the window content with a new CSV file content
+    
+    Save action command logic controls what happens when a user is wanted to save their custon CV
+    SaveAll action command is controlling the data manipulation to store it into another repository/file
+    
+    Error checks ensure proper file types are used*/
 
     /**
      *
@@ -81,12 +86,20 @@ public class MenuBar extends JMenuBar implements ActionListener
            int returnValue = filePicked.showOpenDialog(this);
            if(returnValue == JFileChooser.APPROVE_OPTION)
            {
-               UserGroup.getInstance().getUserInfo().clear();
-               UserGroup.getInstance().getRefereeInfo().clear();
-               UserGroup.getInstance().setUser(new UserProfiles());
-               UserGroup.getInstance().setReferees(new Reference());
-               UserGroup.getInstance().readCSVFile(filePicked.getSelectedFile().toString());
-               MainViewer.getInstance().setMainTab(new TabPanel("Main"));
+               String[] openedFile = filePicked.getSelectedFile().toString().split("\\.");
+               if(openedFile[1].equals("csv"))
+               {
+                UserGroup.getInstance().getUserInfo().clear();
+                UserGroup.getInstance().getRefereeInfo().clear();
+                UserGroup.getInstance().setUser(new UserProfiles());
+                UserGroup.getInstance().setReferees(new Reference());
+                UserGroup.getInstance().readCSVFile(filePicked.getSelectedFile().toString());
+                MainViewer.getInstance().setMainTab(new TabPanel("Main"));   
+               }
+               else
+               {
+                   JOptionPane.showMessageDialog(null, "Unsupported file type. Loaded files must be '.csv'", "USUPPORTED FILE TYPE!", JOptionPane.ERROR_MESSAGE);
+               }
            }
        }
        else if(e.getActionCommand().equals("Print"))

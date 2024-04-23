@@ -13,8 +13,7 @@ import javax.swing.JTabbedPane;
  */
 public class TabPanel extends JTabbedPane
 {
-    /*A singleton definition is used as there is only one TabbedPanel that is ever required
-    edit panel attributes are created and assigned in an update method that can be called whenever a new tabbed panel is required.*/
+    /*A single constructor with multiple conditional statements helps to develop the appropraite tab panels and edit panels*/
         private ArrayList<EditPanel> editPanels = new ArrayList();
         private ArrayList<EditPanel> userEditPanels = new ArrayList();
     

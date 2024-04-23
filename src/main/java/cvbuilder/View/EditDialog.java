@@ -30,8 +30,6 @@ public class EditDialog extends JDialog implements ActionListener
   JPanel rightPanel = new JPanel();
   JLabel textFieldLabel2 = new JLabel("Edit Referee");
   JTextArea refereeInfo = new JTextArea(null,null,100,40);  
-  JTextField userName = new JTextField("User Name");  
-  JTextField userEmail = new JTextField("User Email"); 
   JButton okay = new JButton("OK");
   JButton cancel = new JButton("Cancel");
   RowPanel currentRowPanel;
@@ -41,6 +39,7 @@ public class EditDialog extends JDialog implements ActionListener
      * @param text
      * @param currentRowPanel
      */
+  /*Constructing a dialog box to allow reference data editing*/
     public EditDialog(String text, RowPanel currentRowPanel)
   {
       this.currentRowPanel = currentRowPanel;
@@ -67,6 +66,8 @@ public class EditDialog extends JDialog implements ActionListener
      *
      * @param e
      */
+    /*Action listeners handling whhat to do when cancel is selected and when "OK" is selected.
+    Data is updated on the view and in the data model upon editing from here.*/
     @Override
     public void actionPerformed(ActionEvent e) 
     {
@@ -91,7 +92,6 @@ public class EditDialog extends JDialog implements ActionListener
                     editedText = editedText.replace(",", "////");
                     int oldIndex = UserGroup.getInstance().getRefereeInfo().get(0).getReferee1().indexOf(oldText);
                     UserGroup.getInstance().getRefereeInfo().get(0).getReferee1().set(oldIndex, editedText);
-                    System.out.println(UserGroup.getInstance().getRefereeInfo());
                     this.dispose();
                     
                 }
@@ -104,7 +104,6 @@ public class EditDialog extends JDialog implements ActionListener
                     editedText = editedText.replace(",", "////");
                     int oldIndex = UserGroup.getInstance().getRefereeInfo().get(0).getReferee2().indexOf(oldText);
                     UserGroup.getInstance().getRefereeInfo().get(0).getReferee2().set(oldIndex, editedText);
-                    System.out.println(UserGroup.getInstance().getRefereeInfo());
                     this.dispose();
                 }
             }
