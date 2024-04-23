@@ -30,9 +30,10 @@ public class MenuBar extends JMenuBar implements ActionListener
     JMenu file = new JMenu("File");
     JMenuItem open = new JMenuItem("Open");
     JMenuItem print = new JMenuItem("Print");
-    JMenuItem save = new JMenuItem("Save");
+    JMenuItem save = new JMenuItem("Save Custom CV");
+    JMenuItem saveAll = new JMenuItem("Save All");
     JMenuItem quit = new JMenuItem("Quit");
-    Component mainTabPanel;
+    
     /*A constructor that adds menu items to a menu and adds the menu to the menu bar which is displayed in the MainViewer
     Action Commands and Listeners are set to wire up functionality to each menu item*/
 
@@ -45,15 +46,18 @@ public class MenuBar extends JMenuBar implements ActionListener
         this.file.add(this.open);
         this.file.add(this.print);
         this.file.add(this.save);
+        this.file.add(this.saveAll);
         this.file.add(this.quit);
         this.add(file);
         this.open.setActionCommand("Open");
         this.print.setActionCommand("Print");
         this.save.setActionCommand("Save");
+        this.saveAll.setActionCommand("SaveAll");
         this.quit.setActionCommand("Quit");
         this.print.addActionListener(this);
         this.open.addActionListener(this);
         this.save.addActionListener(this);
+        this.saveAll.addActionListener(this);
         this.quit.addActionListener(this);
     }
 /*Creating functionality to close the window when "quit" is selected and
@@ -175,6 +179,77 @@ public class MenuBar extends JMenuBar implements ActionListener
                
            }
        }
+       else if(e.getActionCommand().equals("SaveAll"))
+       {
+            File newFile = new File("cv_repo_3.csv");
+            JFileChooser saveDataFile = new JFileChooser();
+            saveDataFile.setSelectedFile(newFile);
+            int returnVal = saveDataFile.showSaveDialog(this);
+
+            if(returnVal == JFileChooser.APPROVE_OPTION)
+            {
+                String[] selectedFile = saveDataFile.getSelectedFile().toString().split("\\.");
+                if(!selectedFile[1].equals("csv"))
+                {
+                    JOptionPane.showMessageDialog(null, "Unsupported file type. File type must be '.csv'", "UNSUPPORTED FILE TYPE", JOptionPane.ERROR_MESSAGE);
+                }
+                else
+                {
+                 try(FileWriter customCV = new FileWriter(saveDataFile.getSelectedFile().toString());
+                         BufferedWriter bw = new BufferedWriter(customCV)) 
+                 {
+                     bw.write("Section,"+"Sub Section,"+"Variants");
+                     bw.newLine();
+                     StringBuilder infoBuild = new StringBuilder();
+                     for(String titles : UserGroup.getInstance().getUserInfo().get(0).getUserTitle())
+                     {
+                         infoBuild.append(titles).append(",");
+                     }
+                     infoBuild.deleteCharAt(infoBuild.length()-1);
+                     bw.write("User,"+"Title,"+infoBuild);
+                     bw.newLine();
+                     infoBuild.setLength(0);
+                     for(String name : UserGroup.getInstance().getUserInfo().get(0).getUserName())
+                     {
+                         infoBuild.append(name).append(",");
+                     }
+                     infoBuild.deleteCharAt(infoBuild.length()-1);
+                     bw.write("User,"+"Name,"+infoBuild);
+                     bw.newLine();
+                     infoBuild.setLength(0);
+                     for(String email : UserGroup.getInstance().getUserInfo().get(0).getUserEmail())
+                     {
+                         infoBuild.append(email).append(",");
+                     }
+                     infoBuild.deleteCharAt(infoBuild.length()-1);
+                     bw.write("User,"+"Email,"+infoBuild);
+                     bw.newLine();
+                     infoBuild.setLength(0);
+                     for(String RefereeOne : UserGroup.getInstance().getRefereeInfo().get(0).getReferee1())
+                     {
+                         infoBuild.append(RefereeOne).append(",");
+                     }
+                     infoBuild.deleteCharAt(infoBuild.length()-1);
+                     bw.write("Reference,"+"Referee 1,"+infoBuild);
+                     bw.newLine();
+                     infoBuild.setLength(0);
+                     for(String RefereeTwo : UserGroup.getInstance().getRefereeInfo().get(0).getReferee2())
+                     {
+                         infoBuild.append(RefereeTwo).append(",");
+                     }
+                      bw.write("Reference,"+"Referee 2,"+infoBuild);   
+                 }
+                 catch(IOException c)
+                 {
+                     c.printStackTrace();
+                     System.out.println("File Error");
+                 }
+
+                }
+            }
+               
+           }
+       }
        
     }
-}
+

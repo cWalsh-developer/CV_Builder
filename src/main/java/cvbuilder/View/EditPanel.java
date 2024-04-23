@@ -20,6 +20,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -77,7 +78,7 @@ public class EditPanel extends JPanel implements ActionListener
     public void setButtonGroup(ButtonGroup buttonGroup) {
         this.buttonGroup = buttonGroup;
     }
-    /*Constructor for the edit panels which defines a grid layout, and uses a for each loop 
+    /*Constructor for the edit panels which defines each layout, and uses a for each loop 
     to iterate through different userprofile objects based on the current tab name.
     the data is created into a row panel which is then added to each tabbed window.*/ 
 
@@ -262,34 +263,60 @@ public class EditPanel extends JPanel implements ActionListener
         {
             switch (this.getName()) {
                 case "User Name" -> {
-                    RowPanel addedName = new RowPanel(UserGroup.getInstance().getUserInfo().get(0),null,this,this.addUser.getText(),0);
-                    buttonGroup.add(addedName.getRadioButton());
-                    UserGroup.getInstance().getUserInfo().get(0).getUserName().add(this.addUser.getText());
-                    this.add(addedName, this.getComponentCount()-1);
-                    this.addUser.setText("");
-                    this.revalidate();
-                    this.repaint();
+                    if(this.addUser.getText()==null || this.addUser.getText().trim().equals(""))
+                    {
+                        JOptionPane.showMessageDialog(null, "No username was entered! Please enter a username", "ADD USER DATA ERROR!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else
+                    {
+                        RowPanel addedName = new RowPanel(UserGroup.getInstance().getUserInfo().get(0),null,this,this.addUser.getText(),0);
+                        buttonGroup.add(addedName.getRadioButton());
+                        UserGroup.getInstance().getUserInfo().get(0).getUserName().add(this.addUser.getText());
+                        this.add(addedName, this.getComponentCount()-1);
+                        this.addUser.setText("");
+                        this.revalidate();
+                        this.repaint();
+                    }
                 }
                 case "User Email" -> {
-                    RowPanel addedEmail = new RowPanel(UserGroup.getInstance().getUserInfo().get(0),null,this,this.addUser.getText(),0);
-                    buttonGroup.add(addedEmail.getRadioButton());
-                    UserGroup.getInstance().getUserInfo().get(0).getUserEmail().add(this.addUser.getText());
-                    this.add(addedEmail, this.getComponentCount()-1);
-                    this.addUser.setText("");
-                    this.revalidate();
-                    this.repaint();
+                    if(this.addUser.getText()==null || this.addUser.getText().trim().equals(""))
+                    {
+                        JOptionPane.showMessageDialog(null, "No email was entered! Please enter an email", "ADD EMAIL DATA ERROR!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else
+                    {
+                        RowPanel addedEmail = new RowPanel(UserGroup.getInstance().getUserInfo().get(0),null,this,this.addUser.getText(),0);
+                        buttonGroup.add(addedEmail.getRadioButton());
+                        UserGroup.getInstance().getUserInfo().get(0).getUserEmail().add(this.addUser.getText());
+                        this.add(addedEmail, this.getComponentCount()-1);
+                        this.addUser.setText("");
+                        this.revalidate();
+                        this.repaint();
+                    }
                 }
                 case "User Title" -> {
-                    RowPanel addedTitle = new RowPanel(UserGroup.getInstance().getUserInfo().get(0),null,this,this.addUser.getText(),0);
-                    buttonGroup.add(addedTitle.getRadioButton());
-                    UserGroup.getInstance().getUserInfo().get(0).getUserTitle().add(this.addUser.getText());
-                    this.add(addedTitle, this.getComponentCount()-1);
-                    this.addUser.setText("");
-                    this.revalidate();
-                    this.repaint();
+                    if(this.addUser.getText() ==null || this.addUser.getText().trim().equals(""))
+                    {
+                        JOptionPane.showMessageDialog(null, "No title was entered! Please enter a title", "ADD TITLE DATA ERROR!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else
+                    {
+                        RowPanel addedTitle = new RowPanel(UserGroup.getInstance().getUserInfo().get(0),null,this,this.addUser.getText(),0);
+                        buttonGroup.add(addedTitle.getRadioButton());
+                        UserGroup.getInstance().getUserInfo().get(0).getUserTitle().add(this.addUser.getText());
+                        this.add(addedTitle, this.getComponentCount()-1);
+                        this.addUser.setText("");
+                        this.revalidate();
+                        this.repaint();
+                    }
                 }
-                case "Referee 1" ->                     {
-                        //                System.out.println(this.main.getParent().getComponentCount());
+                case "Referee 1" ->{
+                    if(this.addReference.getText()==null || this.addReference.getText().trim().equals(""))
+                    {
+                        JOptionPane.showMessageDialog(null, "No referee data was entered! Please enter referee data", "ADD REFEREE DATA ERROR!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else
+                    {
                         RowPanel addedReferee1 = new RowPanel(null,UserGroup.getInstance().getRefereeInfo().get(0),this,this.addReference.getText(),0);
                         buttonGroup.add(addedReferee1.getRadioButton());
                         String newReference = this.addReference.getText();
@@ -302,8 +329,14 @@ public class EditPanel extends JPanel implements ActionListener
                         this.revalidate();
                         this.repaint();
                     }
-                case "Referee 2" ->                     {
-                        //                System.out.println(this.main.getParent().getComponentCount());
+                }
+                case "Referee 2" ->{
+                    if(this.addReference.getText()==null || this.addReference.getText().trim().equals(""))
+                    {
+                        JOptionPane.showMessageDialog(null, "No referee data was entered! Please enter referee data", "ADD REFEREE DATA ERROR!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else
+                    {
                         RowPanel addedReferee1 = new RowPanel(null,UserGroup.getInstance().getRefereeInfo().get(0),this,this.addReference.getText(),0);
                         buttonGroup.add(addedReferee1.getRadioButton());
                         String newReference = this.addReference.getText();
@@ -316,11 +349,10 @@ public class EditPanel extends JPanel implements ActionListener
                         this.revalidate();
                         this.repaint();
                     }
+                }
                 default -> {
                 }
             }
-                        System.out.println(UserGroup.getInstance().getRefereeInfo());
-                        System.out.println(UserGroup.getInstance().getUserInfo());
         }
         else
         {
