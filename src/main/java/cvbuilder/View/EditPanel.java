@@ -374,10 +374,13 @@ public class EditPanel extends JPanel implements ActionListener
                 {
                     UserGroup.getInstance().setCvSelectedTitle(null);
                 }
+                else if(this.getName().equals("Referee 1"))
+                {
+                    UserGroup.getInstance().setCvSelectedReferee1(null);
+                }
                 else
                 {
                     UserGroup.getInstance().setCvSelectedReferee2(null);
-                    UserGroup.getInstance().setCvSelectedReferee1(null);
                 }
             }
         }

@@ -55,6 +55,7 @@ public class RowPanel extends JPanel implements ActionListener
     private int tabNum;
     private ArrayList<JRadioButton> radioButtons = new ArrayList();
     private String newText = null;
+    private String deleteText = null;
 
     /**
      *
@@ -256,38 +257,64 @@ public class RowPanel extends JPanel implements ActionListener
         {
             if(this.users==null)
             {
-                String convertedText = this.refereeInfo.getText().replace("\n", "%%%%");
-                convertedText = convertedText.replace(",", "////");
-                if(this.referees.getReferee1().contains(convertedText))
+                int option = JOptionPane.showConfirmDialog(null, "Are you sure you would like to delete \n"+this.refereeInfo.getText()+"?", 
+                        "Are You Sure?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if(option == JOptionPane.YES_OPTION)
                 {
-                    this.referees.getReferee1().remove(convertedText);
-                    System.out.println(UserGroup.getInstance().getRefereeInfo());
+                    String convertedText = this.refereeInfo.getText().replace("\n", "%%%%");
+                    convertedText = convertedText.replace(",", "////");
+                    if(this.referees.getReferee1().contains(convertedText))
+                    {
+                        this.referees.getReferee1().remove(convertedText);
+                        System.out.println(UserGroup.getInstance().getRefereeInfo());
+                    }
+                    else if(this.referees.getReferee2().contains(convertedText))
+                    {
+                        this.referees.getReferee2().remove(convertedText);
+                        System.out.println(UserGroup.getInstance().getRefereeInfo());
+                    }
+                    this.rowPanelEditor = this.getParent();
+                    this.getParent().remove(this);
+                    this.rowPanelEditor.revalidate();
+                    this.rowPanelEditor.repaint();
                 }
-                else if(this.referees.getReferee2().contains(convertedText))
+                else
                 {
-                    this.referees.getReferee2().remove(convertedText);
-                    System.out.println(UserGroup.getInstance().getRefereeInfo());
+                    JOptionPane.getRootFrame().dispose();
                 }
             }
             else
             {
-                if(users.getUserName().contains(this.name))
+                int option = JOptionPane.showConfirmDialog(null, "Are you sure you would like to delete "+this.radioButton.getText()+"?", 
+                        "Are You Sure?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if(option == JOptionPane.NO_OPTION)
                 {
-                    users.getUserName().remove(this.name);
+                    JOptionPane.getRootFrame().dispose();
                 }
-                else if(users.getUserTitle().contains(this.name))
+                else if(option == JOptionPane.YES_OPTION)
                 {
-                    users.getUserTitle().remove(this.name);
+                    if(users.getUserName().contains(this.name))
+                    {
+                        users.getUserName().remove(this.name);
+                    }
+                    else if(users.getUserTitle().contains(this.name))
+                    {
+                        users.getUserTitle().remove(this.name);
+                    }
+                    else if(users.getUserEmail().contains(this.name))
+                    {
+                        users.getUserEmail().remove(this.name);
+                    }
+                    this.rowPanelEditor = this.getParent();
+                    this.getParent().remove(this);
+                    this.rowPanelEditor.revalidate();
+                    this.rowPanelEditor.repaint();
                 }
-                else if(users.getUserEmail().contains(this.name))
+                else
                 {
-                    users.getUserEmail().remove(this.name);
+                    JOptionPane.getRootFrame().dispose();
                 }
             }
-            this.rowPanelEditor = this.getParent();
-            this.getParent().remove(this);
-            this.rowPanelEditor.revalidate();
-            this.rowPanelEditor.repaint();
         }
         else if(e.getActionCommand().equals("Radio"))
         {
