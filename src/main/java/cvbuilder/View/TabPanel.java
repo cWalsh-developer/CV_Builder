@@ -4,8 +4,6 @@
  */
 package cvbuilder.View;
 
-import cvbuilder.Model.UserGroup;
-import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.JTabbedPane;
 
@@ -20,6 +18,10 @@ public class TabPanel extends JTabbedPane
         private ArrayList<EditPanel> editPanels = new ArrayList();
         private ArrayList<EditPanel> userEditPanels = new ArrayList();
     
+    /**
+     *
+     * @param sectionName
+     */
     public TabPanel(String sectionName)
     {
         if(sectionName.equalsIgnoreCase("Main"))
@@ -55,9 +57,19 @@ public class TabPanel extends JTabbedPane
             this.addTab("Referee 2", this.editPanels.get(1));
         }
     }
+
+    /**
+     *
+     * @return
+     */
     public ArrayList<EditPanel> getEditPanels() {
         return editPanels;
     }
+
+    /**
+     *
+     * @return
+     */
     public ArrayList<EditPanel> getUserEditPanels() {
         return userEditPanels;
     }

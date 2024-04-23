@@ -4,6 +4,7 @@
  */
 package cvbuilder.View;
 
+import cvbuilder.Model.Reference;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -14,6 +15,7 @@ import cvbuilder.Model.UserGroup;
 import cvbuilder.Model.UserProfiles;
 import java.awt.Container;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JTextArea;
@@ -22,13 +24,13 @@ import javax.swing.JTextArea;
 /**
  *
  * @author Connor
+ * 
  */
 public class RowPanel extends JPanel implements ActionListener
 {
     //defining edit, delete and radiobutton objects and labling them
     JButton edit = new JButton("Edit");
     JButton delete = new JButton("Delete");
-    JButton add = new JButton("Add");
     JRadioButton radioButton = new JRadioButton();
     JPanel buttonPanel = new JPanel();
     JPanel mainPanel = new JPanel();
@@ -39,42 +41,86 @@ public class RowPanel extends JPanel implements ActionListener
     
     //creating an attribute to store the userprofile that is pulled through the constructor
     private UserProfiles users;
+    private Reference referees;
+    private EditPanel current;
     private String name;
     private int tabNum;
+    private ArrayList<JRadioButton> radioButtons = new ArrayList();
 
+    /**
+     *
+     * @return
+     */
     public int getTabNum() {
         return tabNum;
     }
     
 //Getters and setters for the panel buttons
+
+    /**
+     *
+     * @return
+     */
     public JButton getEdit() {
         return edit;
     }
 
+    /**
+     *
+     * @param edit
+     */
     public void setEdit(JButton edit) {
         this.edit = edit;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getDelete() {
         return delete;
     }
 
+    /**
+     *
+     * @param delete
+     */
     public void setDelete(JButton delete) {
         this.delete = delete;
     }
 
+    /**
+     *
+     * @return
+     */
     public JRadioButton getRadioButton() {
         return radioButton;
     }
 
+    /**
+     *
+     * @param radioButton
+     */
     public void setRadioButton(JRadioButton radioButton) {
         this.radioButton = radioButton;
     }
     /*RowPanel constructor which sets the users attribute to the current profile
     sets radiobutton text and action commands and listeners to the delete and edit buttons.*/
-    public RowPanel(UserProfiles profiles, String name, int n)
+
+    /**
+     *
+     * @param profiles
+     * @param referee
+     * @param currentPanel
+     * @param name
+     * @param n
+     */
+
+    public RowPanel(UserProfiles profiles, Reference referee, EditPanel currentPanel, String name, int n)
     {
+        this.current = currentPanel;
         this.users = profiles;
+        this.referees = referee;
         this.name = name;
         
         if(profiles!=null)
@@ -84,15 +130,11 @@ public class RowPanel extends JPanel implements ActionListener
         }
         else
         {
-            StringBuilder sBuild = new StringBuilder();
             if(name.equals("referee1"))
             {
-                String[] newLines = UserGroup.getInstance().getRefereeInfo().get(0).getReferee1().get(n).split("%%%%");
-                for (String newLine : newLines) 
-                {
-                    sBuild.append(newLine).append("\n");
-                }
-                refereeInfo.setText(sBuild.toString());
+                String replace = UserGroup.getInstance().getRefereeInfo().get(0).getReferee1().get(n).replace("%%%%", "\n");
+                String replaceFinal = replace.replace("////", ",");
+                refereeInfo.setText(replaceFinal);
                 mainPanel.add(radioButton);
                 referenceContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
                 referenceContainer.setLayout(new GridLayout(0,1));
@@ -101,12 +143,9 @@ public class RowPanel extends JPanel implements ActionListener
             }
             else if(name.equals("referee2"))
             {
-                String[] newLines = UserGroup.getInstance().getRefereeInfo().get(0).getReferee2().get(n).split("%%%%");
-                for (String newLine : newLines) 
-                {
-                    sBuild.append(newLine).append("\n");
-                }
-                refereeInfo.setText(sBuild.toString());
+                String replace = UserGroup.getInstance().getRefereeInfo().get(0).getReferee2().get(n).replace("%%%%", "\n");
+                String replaceFinal = replace.replace("////", ",");
+                refereeInfo.setText(replaceFinal);
                 mainPanel.add(radioButton);
                 referenceContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
                 referenceContainer.setLayout(new GridLayout(0,1));
@@ -135,33 +174,91 @@ public class RowPanel extends JPanel implements ActionListener
         delete.setActionCommand("Delete");
         edit.addActionListener(this);
         delete.addActionListener(this);
-        this.add.setActionCommand("Add");
-        this.add.addActionListener(this);
+        radioButton.setActionCommand("Radio");
+        radioButton.addActionListener(this);
         
     }
     
     /*Action method which enables the user to update existing user details or delete them*/
+
+    /**
+     *
+     * @param e
+     */
+
     @Override
     public void actionPerformed(ActionEvent e) 
     {
         if(e.getActionCommand().equals("Edit"))
         {
-            
-            String newText = JOptionPane.showInputDialog(this, "Enter New Text:", this.radioButton.getText());
-            if(newText == null || newText.equals("") || newText.trim().equals(""))
+            String newText;
+            if(this.radioButton.getText() == null || this.radioButton.getText().trim().equals(""))
             {
-                this.radioButton.setText(this.radioButton.getText());
+                newText = JOptionPane.showInputDialog(this, "Enter New Text:", this.refereeInfo.getText());
             }
             else
             {
-                this.radioButton.setText(newText);
+               newText = JOptionPane.showInputDialog(this, "Enter New Text:", this.radioButton.getText());
+            }
+            if(newText == null || newText.equals("") || newText.trim().equals(""))
+            {
+                if(this.radioButton.getText()!=null)
+                {
+                    this.radioButton.setText(this.radioButton.getText());
+                }
+                else
+                {
+                    this.refereeInfo.setText(this.refereeInfo.getText());
+                }
+            }
+            else
+            {
+                if(users.getUserName().contains(this.radioButton.getText()))
+                {
+                    int index = users.getUserName().indexOf(this.radioButton.getText());
+                    this.radioButton.setText(newText);
+                    this.users.getUserName().set(index, newText);
+                }
+                else if(users.getUserEmail().contains(this.radioButton.getText()))
+                {
+                    int index = users.getUserEmail().indexOf(this.radioButton.getText());
+                    this.radioButton.setText(newText);
+                    this.users.getUserEmail().set(index, newText);
+                }
+                else if(users.getUserTitle().contains(this.radioButton.getText()))
+                {
+                    int index = users.getUserTitle().indexOf(this.radioButton.getText());
+                    this.radioButton.setText(newText);
+                    this.users.getUserTitle().set(index, newText);
+                }
+                else if(users.getUserTitle().contains(this.radioButton.getText()))
+                {
+                    int index = users.getUserTitle().indexOf(this.radioButton.getText());
+                    this.radioButton.setText(newText);
+                    this.users.getUserTitle().set(index, newText);
+                }
+                else
+                {
+                    System.out.println("No element found");
+                }
             }
         }
         else if (e.getActionCommand().equals("Delete"))
         {
             if(this.users==null)
             {
-                    System.out.println(UserGroup.getInstance().getRefereeInfo());   
+                String convertedText = this.refereeInfo.getText().replace("\n", "%%%%");
+                convertedText = convertedText.replace(",", "////");
+                if(this.referees.getReferee1().contains(convertedText))
+                {
+                    this.referees.getReferee1().remove(convertedText);
+                    System.out.println(UserGroup.getInstance().getRefereeInfo());
+                }
+                else if(this.referees.getReferee2().contains(convertedText))
+                {
+                    this.referees.getReferee2().remove(convertedText);
+                    System.out.println(UserGroup.getInstance().getRefereeInfo());
+                }
             }
             else
             {
@@ -182,6 +279,50 @@ public class RowPanel extends JPanel implements ActionListener
             this.getParent().remove(this);
             this.rowPanelEditor.revalidate();
             this.rowPanelEditor.repaint();
+        }
+        else if(e.getActionCommand().equals("Radio"))
+        {
+            if (this.radioButton.getText()==null || this.radioButton.getText().trim().equals(""))
+            {
+                if(this.current.getName().equals("Referee 1"))
+                {
+                    UserGroup.getInstance().setCvReference1Placeholder(this.refereeInfo.getText());
+                    if(this.current.getInclude().isSelected())
+                    {
+                        UserGroup.getInstance().setCvSelectedReferee1(this.refereeInfo.getText());
+                    }
+                }
+                else
+                {
+                    UserGroup.getInstance().setCvReference2Placeholder(this.refereeInfo.getText());
+                    if(this.current.getInclude().isSelected())
+                    {
+                        UserGroup.getInstance().setCvSelectedReferee2(this.refereeInfo.getText());
+                    } 
+                }
+            }
+            else
+            {
+                if(this.current.getInclude().isShowing())
+                {
+                    UserGroup.getInstance().setCvTitlePlaceholder(this.radioButton.getText());
+                    if(this.current.getInclude().isSelected())
+                    {
+                        UserGroup.getInstance().setCvSelectedTitle(this.radioButton.getText());
+                    }
+                }
+                else
+                {
+                    if(this.current.getName().equalsIgnoreCase("User Name"))
+                    {
+                        UserGroup.getInstance().setCvSelectedName(this.radioButton.getText());
+                    }
+                    else
+                    {
+                        UserGroup.getInstance().setCvSelectedEmail(this.getRadioButton().getText());
+                    }
+                }
+            }
         }
     }
     

@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package cvbuilder.View;
+import cvbuilder.Model.Reference;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
@@ -11,7 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import cvbuilder.Model.UserGroup;
 import cvbuilder.Model.UserProfiles;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,12 +22,12 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 
 /**
  *
  * @author Connor
+ * 
  */
 public class EditPanel extends JPanel implements ActionListener
 {
@@ -37,7 +37,6 @@ public class EditPanel extends JPanel implements ActionListener
    private int infoCounter = 0;
    private JCheckBox include = new JCheckBox("Include");
    private int k = -1;
-   private EditPanel thisInstance = this;
    JTextField addUser = new JTextField(null,null,23);
    JTextArea addReference = new JTextArea(null,0,11);
    JButton addButton = new JButton("Add");
@@ -45,25 +44,48 @@ public class EditPanel extends JPanel implements ActionListener
    JPanel mainButton = new JPanel();
    JPanel referenceContainer = new JPanel();
    JPanel includePanel = new JPanel();
+   private int n = 0;
 
+    /**
+     *
+     * @return
+     */
     public JCheckBox getInclude() {
         return include;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<RowPanel> getRowPanels() {
         return rowPanels;
     }
 
+    /**
+     *
+     * @return
+     */
     public ButtonGroup getButtonGroup() {
         return buttonGroup;
     }
 
+    /**
+     *
+     * @param buttonGroup
+     */
     public void setButtonGroup(ButtonGroup buttonGroup) {
         this.buttonGroup = buttonGroup;
     }
     /*Constructor for the edit panels which defines a grid layout, and uses a for each loop 
     to iterate through different userprofile objects based on the current tab name.
     the data is created into a row panel which is then added to each tabbed window.*/ 
+
+    /**
+     *
+     * @param tabName
+     */
+ 
     public EditPanel(String tabName)
     {
         if(tabName.equalsIgnoreCase("User"))
@@ -90,7 +112,7 @@ public class EditPanel extends JPanel implements ActionListener
             {
                 while(this.infoCounter<=user.getUserName().size()-1)
                 {
-                    RowPanel rowPanel = new RowPanel(user,user.getUserName().get(this.infoCounter),0);
+                    RowPanel rowPanel = new RowPanel(user,null,this,user.getUserName().get(this.infoCounter),0);
                     buttonGroup.add(rowPanel.getRadioButton());
                     this.add(rowPanel);
                     this.rowPanels.add(rowPanel);
@@ -115,7 +137,7 @@ public class EditPanel extends JPanel implements ActionListener
             {
                  while(this.infoCounter<=user.getUserEmail().size()-1)
                 {
-                    RowPanel rowPanel = new RowPanel(user,user.getUserEmail().get(this.infoCounter),0);
+                    RowPanel rowPanel = new RowPanel(user,null,this,user.getUserEmail().get(this.infoCounter),0);
                     buttonGroup.add(rowPanel.getRadioButton());
                     this.add(rowPanel);
                     this.rowPanels.add(rowPanel);
@@ -123,7 +145,6 @@ public class EditPanel extends JPanel implements ActionListener
                 }
                 if(this.k ==-1)
                 {
-//                    RowPanel addUser = new RowPanel(user,null,this.k,this.thisInstance); 
                     main.setLayout(new GridLayout(0,2));
                     main.add(addUser);
                     mainButton.add(addButton);
@@ -137,14 +158,13 @@ public class EditPanel extends JPanel implements ActionListener
         {
             this.setLayout(new FlowLayout(0));
             this.setBorder(new TitledBorder("Title"));
-            JPanel includePanel = new JPanel();
             includePanel.setLayout(new GridLayout(0,1));
             includePanel.add(this.include, BorderLayout.WEST);
             for (UserProfiles user: UserGroup.getInstance().getUserInfo())
             {
                  while(this.infoCounter<=user.getUserTitle().size()-1)
                 {
-                    RowPanel rowPanel = new RowPanel(user,user.getUserTitle().get(this.infoCounter),0);
+                    RowPanel rowPanel = new RowPanel(user,null,this,user.getUserTitle().get(this.infoCounter),0);
                     buttonGroup.add(rowPanel.getRadioButton());
                     includePanel.add(rowPanel);
                     this.add(includePanel);
@@ -166,20 +186,20 @@ public class EditPanel extends JPanel implements ActionListener
         {
             this.setLayout(new FlowLayout(0,0,0));
             this.setBorder(new TitledBorder("Referee 1"));
-            JPanel includePanel = new JPanel();
             includePanel.setLayout(new GridLayout(0,1));
             includePanel.add(this.include,BorderLayout.WEST);
-            int n = 0;
-            for (int i =0;i<=UserGroup.getInstance().getRefereeInfo().size();i++)
+            for (Reference referees:UserGroup.getInstance().getRefereeInfo())
             {
-                    RowPanel rowPanel = new RowPanel(null,"referee1", n);
+                while(this.infoCounter<=referees.getReferee1().size()-1)
+                {
+                    RowPanel rowPanel = new RowPanel(null,referees,this,"referee1", this.infoCounter);
                     buttonGroup.add(rowPanel.getRadioButton());
                     this.rowPanels.add(rowPanel);
                     includePanel.add(rowPanels.get(rowPanels.size()-1),BorderLayout.WEST);
                     this.add(includePanel,BorderLayout.NORTH);
-                    n++;
+                    this.infoCounter++;
+                }
             }
-//                    RowPanel addUser = new RowPanel(user,null,this.k,this.thisInstance); 
             main.setLayout(new BoxLayout(main,BoxLayout.X_AXIS));
             main.add(new JLabel("       "));
             referenceContainer.setLayout(new GridLayout(0,1));
@@ -199,16 +219,18 @@ public class EditPanel extends JPanel implements ActionListener
             this.setBorder(new TitledBorder("Referee 2"));
             includePanel.setLayout(new GridLayout(0,1));
             includePanel.add(this.include,BorderLayout.WEST);
-            int n = 0;
-            for (int i =0;i<=UserGroup.getInstance().getRefereeInfo().size();i++)
+            for (Reference referees:UserGroup.getInstance().getRefereeInfo())
             {
-                    RowPanel rowPanel = new RowPanel(null,"referee2", n);
+                while(this.infoCounter<=referees.getReferee2().size()-1)
+                {
+                    RowPanel rowPanel = new RowPanel(null,referees,this,"referee2", this.n);
                     rowPanel.setSize(WIDTH, 500);
                     buttonGroup.add(rowPanel.getRadioButton());
                     includePanel.add(rowPanel,BorderLayout.WEST);
                     this.add(includePanel,BorderLayout.NORTH);
                     this.rowPanels.add(rowPanel);
-                    n++;
+                    this.infoCounter++;
+                }
             }
             main.setLayout(new BoxLayout(main,BoxLayout.X_AXIS));
             main.add(new JLabel("       "));
@@ -225,38 +247,52 @@ public class EditPanel extends JPanel implements ActionListener
         }
         this.addButton.setActionCommand("Add");
         this.addButton.addActionListener(this);
+        this.include.setActionCommand("Include");
+        this.include.addActionListener(this);
+        
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("Add"))
         {
             switch (this.getName()) {
                 case "User Name" -> {
-                    RowPanel addedName = new RowPanel(UserGroup.getInstance().getUserInfo().get(0),this.addUser.getText(),0);
+                    RowPanel addedName = new RowPanel(UserGroup.getInstance().getUserInfo().get(0),null,this,this.addUser.getText(),0);
                     buttonGroup.add(addedName.getRadioButton());
+                    UserGroup.getInstance().getUserInfo().get(0).getUserName().add(this.addUser.getText());
                     this.add(addedName, this.getComponentCount()-1);
                     this.revalidate();
                     this.repaint();
                 }
                 case "User Email" -> {
-                    RowPanel addedEmail = new RowPanel(UserGroup.getInstance().getUserInfo().get(0),this.addUser.getText(),0);
+                    RowPanel addedEmail = new RowPanel(UserGroup.getInstance().getUserInfo().get(0),null,this,this.addUser.getText(),0);
                     buttonGroup.add(addedEmail.getRadioButton());
+                    UserGroup.getInstance().getUserInfo().get(0).getUserEmail().add(this.addUser.getText());
                     this.add(addedEmail, this.getComponentCount()-1);
                     this.revalidate();
                     this.repaint();
                 }
                 case "User Title" -> {
-                    RowPanel addedTitle = new RowPanel(UserGroup.getInstance().getUserInfo().get(0),this.addUser.getText(),0);
+                    RowPanel addedTitle = new RowPanel(UserGroup.getInstance().getUserInfo().get(0),null,this,this.addUser.getText(),0);
                     buttonGroup.add(addedTitle.getRadioButton());
+                    UserGroup.getInstance().getUserInfo().get(0).getUserTitle().add(this.addUser.getText());
                     this.add(addedTitle, this.getComponentCount()-1);
                     this.revalidate();
                     this.repaint();
                 }
                 case "Referee 1" ->                     {
                         //                System.out.println(this.main.getParent().getComponentCount());
-                        RowPanel addedReferee1 = new RowPanel(null,this.addReference.getText(),0);
+                        RowPanel addedReferee1 = new RowPanel(null,UserGroup.getInstance().getRefereeInfo().get(0),this,this.addReference.getText(),0);
                         buttonGroup.add(addedReferee1.getRadioButton());
+                        String newReference = this.addReference.getText();
+                        newReference = newReference.replace("\n","%%%%");
+                        newReference = newReference.replace(",","////");
+                        UserGroup.getInstance().getRefereeInfo().get(0).getReferee1().add(newReference);
                         addedReferee1.setBorder(BorderFactory.createEmptyBorder(1, 0, 10, 0));
                         this.main.getParent().add(addedReferee1,this.main.getParent().getComponentCount()-1);
                         this.addReference.setText("");
@@ -265,8 +301,12 @@ public class EditPanel extends JPanel implements ActionListener
                     }
                 case "Referee 2" ->                     {
                         //                System.out.println(this.main.getParent().getComponentCount());
-                        RowPanel addedReferee1 = new RowPanel(null,this.addReference.getText(),0);
+                        RowPanel addedReferee1 = new RowPanel(null,UserGroup.getInstance().getRefereeInfo().get(0),this,this.addReference.getText(),0);
                         buttonGroup.add(addedReferee1.getRadioButton());
+                        String newReference = this.addReference.getText();
+                        newReference = newReference.replace("\n","%%%%");
+                        newReference = newReference.replace(",","////");
+                        UserGroup.getInstance().getRefereeInfo().get(0).getReferee2().add(newReference);
                         addedReferee1.setBorder(BorderFactory.createEmptyBorder(1, 0, 10, 0));
                         this.main.getParent().add(addedReferee1,this.main.getParent().getComponentCount()-1);
                         this.addReference.setText("");
@@ -274,6 +314,35 @@ public class EditPanel extends JPanel implements ActionListener
                         this.repaint();
                     }
                 default -> {
+                }
+            }
+                        System.out.println(UserGroup.getInstance().getRefereeInfo());
+                        System.out.println(UserGroup.getInstance().getUserInfo());
+        }
+        else
+        {
+            if(this.include.isSelected()&& this.getName().equals("User Title"))
+            {
+                UserGroup.getInstance().setCvSelectedTitle(UserGroup.getInstance().getCvTitlePlaceholder());
+            }
+            else if(this.include.isSelected()&& this.getName().equals("Referee 1"))
+            {
+                UserGroup.getInstance().setCvSelectedReferee1(UserGroup.getInstance().getCvReference1Placeholder());
+            }
+            else if(this.include.isSelected()&& this.getName().equals("Referee 2"))
+            {
+                UserGroup.getInstance().setCvSelectedReferee2(UserGroup.getInstance().getCvReference2Placeholder());
+            }
+            else
+            {
+                if(this.getName().equals("User Title"))
+                {
+                    UserGroup.getInstance().setCvSelectedTitle(null);
+                }
+                else
+                {
+                    UserGroup.getInstance().setCvSelectedReferee2(null);
+                    UserGroup.getInstance().setCvSelectedReferee1(null);
                 }
             }
         }

@@ -9,7 +9,8 @@ import cvbuilder.View.MainViewer;
 
 /**
  *
- * @author 
+ * @author Connor
+ * 
  */
 public class App {
 

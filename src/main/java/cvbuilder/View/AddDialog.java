@@ -14,7 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import cvbuilder.Model.UserGroup;
-import cvbuilder.Model.UserProfiles;
 
 /**
  *
@@ -35,7 +34,10 @@ public class AddDialog extends JDialog implements ActionListener
   JButton okay = new JButton("OK");
   JButton cancel = new JButton("Cancel");
   
-  public AddDialog()
+    /**
+     *
+     */
+    public AddDialog()
   {
       this.mainPanel.setLayout(new GridLayout(0,2));
       this.leftPanel.setLayout(new GridLayout(0,1));
@@ -59,8 +61,10 @@ public class AddDialog extends JDialog implements ActionListener
       this.add(this.bottomPanel, BorderLayout.SOUTH);
   }
     
-    
-   
+    /**
+     *
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) 
     {

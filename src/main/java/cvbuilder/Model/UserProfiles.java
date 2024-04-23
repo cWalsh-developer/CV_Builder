@@ -16,6 +16,11 @@ public class UserProfiles
     private ArrayList<String> userEmail = new ArrayList();
     
 //Defining getters and setters for all attributes
+
+    /**
+     *
+     * @return
+     */
     public ArrayList<String> getUserName() {
         return userName;
     }
@@ -24,22 +29,44 @@ public class UserProfiles
 //        this.userName = userName;
 //    }
 
+    /**
+     *
+     * @return
+     */
+
     public ArrayList<String> getUserTitle() {
         return userTitle;
     }
 
+    /**
+     *
+     * @param userTitle
+     */
     public void setUserTitle(ArrayList<String> userTitle) {
         this.userTitle = userTitle;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<String> getUserEmail() {
         return userEmail;
     }
 
+    /**
+     *
+     * @param userEmail
+     */
     public void setUserEmail(ArrayList<String> userEmail) {
         this.userEmail = userEmail;
     }
     //A toString method that returns a StringBuilder converted to a String object that combines all the relevant attribute data.
+
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString()
     {

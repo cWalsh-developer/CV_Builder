@@ -17,6 +17,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+/**
+ *
+ * @author Connor
+ */
 public class MainViewer extends JFrame implements ActionListener
 {
      private static MainViewer instance;
@@ -53,6 +58,11 @@ public class MainViewer extends JFrame implements ActionListener
         this.add.addActionListener(this);
     }
     //Singleton reference for the main viewer
+
+    /**
+     *
+     * @return
+     */
      public static MainViewer getInstance()
     {
         if(instance == null)
@@ -61,6 +71,11 @@ public class MainViewer extends JFrame implements ActionListener
         }
         return instance;
     }
+
+    /**
+     *
+     * @param mainTab
+     */
     public void setMainTab(TabPanel mainTab) {
         this.remove(this.mainTab);
         this.mainTab = mainTab;
@@ -68,10 +83,19 @@ public class MainViewer extends JFrame implements ActionListener
         this.revalidate();
         this.repaint();
     }
+
+    /**
+     *
+     * @return
+     */
     public TabPanel getMainTab() {
         return mainTab;
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) 
     {

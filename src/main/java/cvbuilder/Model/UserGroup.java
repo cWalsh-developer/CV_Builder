@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.io.FileReader;	  	 	 	      	     	       	   	
 import java.io.BufferedReader;
 
+/**
+ *
+ * @author Connor
+ */
 public class UserGroup 
 {
     /*Defining a list of user profiles which holds data read from a CSV file
@@ -21,6 +25,78 @@ public class UserGroup
     private List<UserProfiles> userInfo = new ArrayList();
     UserProfiles user = new UserProfiles();	  
 
+    public String getCvSelectedName() {
+        return cvSelectedName;
+    }
+
+    public void setCvSelectedName(String cvSelectedName) {
+        this.cvSelectedName = cvSelectedName;
+    }
+
+    public String getCvSelectedTitle() {
+        return cvSelectedTitle;
+    }
+
+    public void setCvSelectedTitle(String cvSelectedTitle) {
+        this.cvSelectedTitle = cvSelectedTitle;
+    }
+
+    public String getCvSelectedEmail() {
+        return cvSelectedEmail;
+    }
+
+    public void setCvSelectedEmail(String cvSelectedEmail) {
+        this.cvSelectedEmail = cvSelectedEmail;
+    }
+
+    public String getCvSelectedReferee1() {
+        return cvSelectedReferee1;
+    }
+
+    public void setCvSelectedReferee1(String cvSelectedReference) {
+        this.cvSelectedReferee1 = cvSelectedReference;
+    }
+    
+    private String cvSelectedName;
+    private String cvSelectedTitle;
+    private String cvSelectedEmail;
+    private String cvSelectedReferee1;
+    private String cvSelectedReferee2;
+    private String cvReference1Placeholder;
+    private String cvReference2Placeholder;
+
+    public String getCvReference2Placeholder() {
+        return cvReference2Placeholder;
+    }
+
+    public void setCvReference2Placeholder(String cvReference2Placeholder) {
+        this.cvReference2Placeholder = cvReference2Placeholder;
+    }
+    private String cvTitlePlaceholder;
+
+    public String getCvSelectedReferee2() {
+        return cvSelectedReferee2;
+    }
+
+    public void setCvSelectedReferee2(String cvSelectedReferee2) {
+        this.cvSelectedReferee2 = cvSelectedReferee2;
+    }
+
+    public String getCvReference1Placeholder() {
+        return cvReference1Placeholder;
+    }
+
+    public void setCvReference1Placeholder(String cvReferencePlaceholder) {
+        this.cvReference1Placeholder = cvReferencePlaceholder;
+    }
+
+    public String getCvTitlePlaceholder() {
+        return cvTitlePlaceholder;
+    }
+
+    public void setCvTitlePlaceholder(String cvTitlePlaceholder) {
+        this.cvTitlePlaceholder = cvTitlePlaceholder;
+    }
 
     private List<Reference> refereeInfo = new ArrayList();
     Reference referees = new Reference();	  
@@ -28,6 +104,10 @@ public class UserGroup
 
     private static UserGroup Instance;
     
+    /**
+     *
+     * @return
+     */
     public static UserGroup getInstance()
     {
         if(Instance == null)
@@ -37,6 +117,11 @@ public class UserGroup
         return Instance;
     }
 //Reading the data from the parsed CSV file and adding it to a UserProfiles object which is then stored into the ArayList	  	 	 	      	     	       	   	
+
+    /**
+     *
+     * @param secondFileName
+     */
   public void readCSVFile(String secondFileName)	  	 	 	      	     	       	   	
   {	  	 	 	      	     	       	   	
     try (
@@ -98,21 +183,51 @@ public class UserGroup
       e.printStackTrace();	  	 	 	      	     	       	   	
     }	  	 	 	      	     	       	   	
   }	  	 	 	      	     	       	   	
+
+    /**
+     *
+     * @return
+     */
     public List<UserProfiles> getUserInfo() {
         return userInfo;
     }
+
+    /**
+     *
+     * @return
+     */
     public List<Reference> getRefereeInfo() {
         return refereeInfo;
     }
+
+    /**
+     *
+     * @param userInfo
+     */
     public void setUserInfo(ArrayList<UserProfiles> userInfo) {
         this.userInfo = userInfo;
     }
+
+    /**
+     *
+     * @param referees
+     */
     public void setReferees(Reference referees) {
         this.referees = referees;
     }
+
+    /**
+     *
+     * @param user
+     */
     public void setUser(UserProfiles user) {
         this.user = user;
     }
+
+    /**
+     *
+     * @return
+     */
     public UserProfiles getUser() {
         return user;
     }
