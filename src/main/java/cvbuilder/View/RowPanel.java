@@ -37,6 +37,14 @@ public class RowPanel extends JPanel implements ActionListener
     JPanel innerButtonPanel = new JPanel();
     Container rowPanelEditor;
     JTextArea refereeInfo = new JTextArea();
+
+    public JTextArea getRefereeInfo() {
+        return refereeInfo;
+    }
+
+    public void setRefereeInfo(JTextArea refereeInfo) {
+        this.refereeInfo = refereeInfo;
+    }
     JPanel referenceContainer = new JPanel();
     
     //creating an attribute to store the userprofile that is pulled through the constructor
@@ -46,6 +54,7 @@ public class RowPanel extends JPanel implements ActionListener
     private String name;
     private int tabNum;
     private ArrayList<JRadioButton> radioButtons = new ArrayList();
+    private String newText = null;
 
     /**
      *
@@ -191,16 +200,16 @@ public class RowPanel extends JPanel implements ActionListener
     {
         if(e.getActionCommand().equals("Edit"))
         {
-            String newText;
             if(this.radioButton.getText() == null || this.radioButton.getText().trim().equals(""))
             {
-                newText = JOptionPane.showInputDialog(this, "Enter New Text:", this.refereeInfo.getText());
+                EditDialog editBox = new EditDialog(this.refereeInfo.getText(), this);
+                editBox.setVisible(true);
             }
             else
             {
-               newText = JOptionPane.showInputDialog(this, "Enter New Text:", this.radioButton.getText());
+               this.newText = JOptionPane.showInputDialog(this, "Enter New Text:", this.radioButton.getText());
             }
-            if(newText == null || newText.equals("") || newText.trim().equals(""))
+            if(this.newText == null || this.newText.equals("") || this.newText.trim().equals(""))
             {
                 if(this.radioButton.getText()!=null)
                 {

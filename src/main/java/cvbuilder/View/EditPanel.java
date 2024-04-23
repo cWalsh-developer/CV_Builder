@@ -266,6 +266,7 @@ public class EditPanel extends JPanel implements ActionListener
                     buttonGroup.add(addedName.getRadioButton());
                     UserGroup.getInstance().getUserInfo().get(0).getUserName().add(this.addUser.getText());
                     this.add(addedName, this.getComponentCount()-1);
+                    this.addUser.setText("");
                     this.revalidate();
                     this.repaint();
                 }
@@ -274,6 +275,7 @@ public class EditPanel extends JPanel implements ActionListener
                     buttonGroup.add(addedEmail.getRadioButton());
                     UserGroup.getInstance().getUserInfo().get(0).getUserEmail().add(this.addUser.getText());
                     this.add(addedEmail, this.getComponentCount()-1);
+                    this.addUser.setText("");
                     this.revalidate();
                     this.repaint();
                 }
@@ -282,6 +284,7 @@ public class EditPanel extends JPanel implements ActionListener
                     buttonGroup.add(addedTitle.getRadioButton());
                     UserGroup.getInstance().getUserInfo().get(0).getUserTitle().add(this.addUser.getText());
                     this.add(addedTitle, this.getComponentCount()-1);
+                    this.addUser.setText("");
                     this.revalidate();
                     this.repaint();
                 }
