@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.ArrayList;	  	 	 	      	     	       	   		  	 	 	      	     	       	   	
 import java.io.FileReader;	  	 	 	      	     	       	   	
 import java.io.BufferedReader;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,7 +34,6 @@ public class UserGroup
     private String cvSelectedReferee2;
     private String cvReference1Placeholder;
     private String cvReference2Placeholder;
-
     private List<Reference> refereeInfo = new ArrayList();
     Reference referees = new Reference();	  
 
@@ -60,7 +60,7 @@ public class UserGroup
      * @param fileName
      */
   public void readCSVFile(String fileName)	  	 	 	      	     	       	   	
-  {	  	 	 	      	     	       	   	
+  {	  
     try (
             FileReader file = new FileReader(fileName); 	  	 	 	      	     	       	   	
             BufferedReader b = new BufferedReader(file);)
@@ -117,7 +117,7 @@ public class UserGroup
     }	  	 	 	      	     	       	   	
     catch(Exception e)	  	 	 	      	     	       	   	
     {	  	 	 	      	     	       	   	
-      e.printStackTrace();	  	 	 	      	     	       	   	
+      e.printStackTrace();
     }	  	 	 	      	     	       	   	
   }	  	 	 	      	     	       	   	
 

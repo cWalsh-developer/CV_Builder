@@ -15,7 +15,6 @@ import cvbuilder.Model.UserGroup;
 import cvbuilder.Model.UserProfiles;
 import java.awt.Container;
 import java.awt.GridLayout;
-import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JTextArea;
@@ -60,18 +59,12 @@ public class RowPanel extends JPanel implements ActionListener
     private Reference referees;
     private EditPanel current;
     private String name;
-    private int tabNum;
-    private ArrayList<JRadioButton> radioButtons = new ArrayList();
     private String newText = null;
-    private String deleteText = null;
 
     /**
      *
      * @return
      */
-    public int getTabNum() {
-        return tabNum;
-    }
     
 //Getters and setters for the panel buttons
 
@@ -218,7 +211,7 @@ public class RowPanel extends JPanel implements ActionListener
             }
             else
             {
-               this.newText = JOptionPane.showInputDialog(this, "Enter New Text:", this.radioButton.getText());
+               this.newText = JOptionPane.showInputDialog(null, "Enter New Text:", this.radioButton.getText());
             }
             if(this.newText == null || this.newText.equals("") || this.newText.trim().equals(""))
             {

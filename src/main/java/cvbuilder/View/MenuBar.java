@@ -13,9 +13,9 @@ import javax.swing.JMenuItem;
 import cvbuilder.Model.UserGroup;
 import cvbuilder.Model.UserProfiles;
 import cvbuilder.Model.Reference;
-import java.awt.Component;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.JOptionPane;
@@ -33,6 +33,7 @@ public class MenuBar extends JMenuBar implements ActionListener
     JMenuItem save = new JMenuItem("Save Custom CV");
     JMenuItem saveAll = new JMenuItem("Save All");
     JMenuItem quit = new JMenuItem("Quit");
+    StringBuilder cvBuild = new StringBuilder();
     
     /*A constructor that adds menu items to a menu and adds the menu to the menu bar which is displayed in the MainViewer
     Action Commands and Listeners are set to wire up functionality to each menu item*/
@@ -78,45 +79,54 @@ public class MenuBar extends JMenuBar implements ActionListener
     {
        if(e.getActionCommand().equals("Quit"))
        {
-           System.exit(0);
+           int confirmClosure = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit 'CV Builder'?", "ARE YOU SURE?", 
+                   JOptionPane.YES_NO_OPTION, 
+                   JOptionPane.QUESTION_MESSAGE);
+           if(confirmClosure == JOptionPane.YES_OPTION)
+           {
+                System.exit(0);
+           }
        }
        else if(e.getActionCommand().equals("Open"))
        {
+           this.cvBuild.setLength(0);
            JFileChooser filePicked = new JFileChooser();
            int returnValue = filePicked.showOpenDialog(this);
-           if(returnValue == JFileChooser.APPROVE_OPTION)
+           if(returnValue == JFileChooser.APPROVE_OPTION && filePicked.getSelectedFile().exists())
            {
-               String[] openedFile = filePicked.getSelectedFile().toString().split("\\.");
-               if(openedFile[1].equals("csv"))
+               if(filePicked.getSelectedFile().toString().endsWith(".csv"))
                {
-                UserGroup.getInstance().getUserInfo().clear();
-                UserGroup.getInstance().getRefereeInfo().clear();
-                UserGroup.getInstance().setUser(new UserProfiles());
-                UserGroup.getInstance().setReferees(new Reference());
-                UserGroup.getInstance().readCSVFile(filePicked.getSelectedFile().toString());
-                MainViewer.getInstance().setMainTab(new TabPanel("Main"));   
+                   UserGroup.getInstance().getUserInfo().clear();
+                   UserGroup.getInstance().getRefereeInfo().clear();
+                   UserGroup.getInstance().setUser(new UserProfiles());
+                   UserGroup.getInstance().setReferees(new Reference());
+                   UserGroup.getInstance().readCSVFile(filePicked.getSelectedFile().toString());
+                   MainViewer.getInstance().setMainTab(new TabPanel("Main"));
                }
                else
                {
                    JOptionPane.showMessageDialog(null, "Unsupported file type. Loaded files must be '.csv'", "USUPPORTED FILE TYPE!", JOptionPane.ERROR_MESSAGE);
                }
            }
-       }
+           else
+           {
+               JOptionPane.showMessageDialog(null, "No file found, please try again.", "NO FILE FOUND!", JOptionPane.ERROR_MESSAGE);
+           }
+       }    
        else if(e.getActionCommand().equals("Print"))
        {
            if(UserGroup.getInstance().getCvSelectedName() == null || UserGroup.getInstance().getCvSelectedEmail() == null)
            {
-               JOptionPane.showMessageDialog(null, "You Must Select a Name and an Email", "Selection Error", JOptionPane.ERROR_MESSAGE);
+               JOptionPane.showMessageDialog(null, "You must select at least a Name and an Email before printing", "Selection Error", JOptionPane.ERROR_MESSAGE);
            }
            else
            {
-                StringBuilder cvBuild = new StringBuilder();
                 if(UserGroup.getInstance().getCvSelectedTitle() != null)
                 {
-                    cvBuild.append("Title: ").append(UserGroup.getInstance().getCvSelectedTitle()).append("\n");
+                    this.cvBuild.append("Title: ").append(UserGroup.getInstance().getCvSelectedTitle()).append("\n");
                     
                 }
-                cvBuild.append("Name: ").append(UserGroup.getInstance().getCvSelectedName()).append("\n")
+                this.cvBuild.append("Name: ").append(UserGroup.getInstance().getCvSelectedName()).append("\n")
                 .append("Email: ").append(UserGroup.getInstance().getCvSelectedEmail()).append("\n");
                 if(UserGroup.getInstance().getCvSelectedReferee1() !=null)
                 {
@@ -125,17 +135,18 @@ public class MenuBar extends JMenuBar implements ActionListener
                 }
                 if(UserGroup.getInstance().getCvSelectedReferee2() !=null)
                 {
-                    cvBuild.append("Referee 2: ").append(UserGroup.getInstance().getCvSelectedReferee2()).append("\n");
+                    this.cvBuild.append("Referee 2: ").append(UserGroup.getInstance().getCvSelectedReferee2()).append("\n");
                     
                 }
-                System.out.println(cvBuild.toString());
+                System.out.println(this.cvBuild.toString());
+                this.cvBuild.setLength(0);
            }
        }
        else if(e.getActionCommand().equals("Save"))
        {
            if(UserGroup.getInstance().getCvSelectedName() == null || UserGroup.getInstance().getCvSelectedEmail()==null)
            {
-               JOptionPane.showMessageDialog(null, "You must select at least an email and a name before you can save your custom CV", "Insufficient Data Provided", JOptionPane.ERROR_MESSAGE);
+               JOptionPane.showMessageDialog(null, "You must select at least a Name and an Email before saving your custom CV", "Insufficient Data Provided", JOptionPane.ERROR_MESSAGE);
            }
            else
            {
@@ -146,47 +157,45 @@ public class MenuBar extends JMenuBar implements ActionListener
                 
                 if(returnVal == JFileChooser.APPROVE_OPTION)
                 {
-                    String[] selectedFile = saveFile.getSelectedFile().toString().split("\\.");
-                    if(!selectedFile[1].equals("csv"))
+                    if(saveFile.getSelectedFile().toString().toLowerCase().endsWith(".csv"))
                     {
-                        JOptionPane.showMessageDialog(null, "Unsupported file type. File type must be '.csv'", "UNSUPPORTED FILE TYPE", JOptionPane.ERROR_MESSAGE);
+                        try(FileWriter customCV = new FileWriter(saveFile.getSelectedFile().toString());
+                                BufferedWriter bw = new BufferedWriter(customCV)) 
+                        {
+                            if(UserGroup.getInstance().getCvSelectedTitle()!=null)
+                            {
+                             bw.write("User,"+"Title,"+UserGroup.getInstance().getCvSelectedTitle());
+                             bw.newLine();   
+                            }
+                            bw.write("User,"+"Name,"+UserGroup.getInstance().getCvSelectedName());
+                            bw.newLine();
+                            bw.write("User,"+"Email,"+UserGroup.getInstance().getCvSelectedEmail());
+                            bw.newLine();
+                            if(UserGroup.getInstance().getCvSelectedReferee1()!=null)
+                            {
+                             String convertedReference = UserGroup.getInstance().getCvSelectedReferee1();
+                             convertedReference = convertedReference.replace("\n", "%%%%");
+                             convertedReference = convertedReference.replace(",", "////");
+                             bw.write("Reference,"+"Referee 1,"+convertedReference);
+                             bw.newLine();
+                            }
+                            if(UserGroup.getInstance().getCvSelectedReferee2()!=null)
+                            {
+                             String convertedReference = UserGroup.getInstance().getCvSelectedReferee2();
+                             convertedReference = convertedReference.replace("\n", "%%%%");
+                             convertedReference = convertedReference.replace(",", "////");
+                             bw.write("Reference,"+"Referee 2,"+convertedReference);   
+                            }
+                        }
+                        catch(IOException c)
+                        {
+                            c.printStackTrace();
+                            System.out.println("File Error");
+                        }
                     }
                     else
                     {
-                     try(FileWriter customCV = new FileWriter(saveFile.getSelectedFile().toString());
-                             BufferedWriter bw = new BufferedWriter(customCV)) 
-                     {
-                         if(UserGroup.getInstance().getCvSelectedTitle()!=null)
-                         {
-                          bw.write("User,"+"Title,"+UserGroup.getInstance().getCvSelectedTitle());
-                          bw.newLine();   
-                         }
-                         bw.write("User,"+"Name,"+UserGroup.getInstance().getCvSelectedName());
-                         bw.newLine();
-                         bw.write("User,"+"Email,"+UserGroup.getInstance().getCvSelectedEmail());
-                         bw.newLine();
-                         if(UserGroup.getInstance().getCvSelectedReferee1()!=null)
-                         {
-                          String convertedReference = UserGroup.getInstance().getCvSelectedReferee1();
-                          convertedReference = convertedReference.replace("\n", "%%%%");
-                          convertedReference = convertedReference.replace(",", "////");
-                          bw.write("Reference,"+"Referee 1,"+convertedReference);
-                          bw.newLine();
-                         }
-                         if(UserGroup.getInstance().getCvSelectedReferee2()!=null)
-                         {
-                          String convertedReference = UserGroup.getInstance().getCvSelectedReferee2();
-                          convertedReference = convertedReference.replace("\n", "%%%%");
-                          convertedReference = convertedReference.replace(",", "////");
-                          bw.write("Reference,"+"Referee 2,"+convertedReference);   
-                         }
-                     }
-                     catch(IOException c)
-                     {
-                         c.printStackTrace();
-                         System.out.println("File Error");
-                     }
-
+                        JOptionPane.showMessageDialog(null, "Unsupported file type. Files must be saved as '.csv'\n and with no spaces", "UNSUPPORTED FILE TYPE", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                
@@ -201,68 +210,64 @@ public class MenuBar extends JMenuBar implements ActionListener
 
             if(returnVal == JFileChooser.APPROVE_OPTION)
             {
-                String[] selectedFile = saveDataFile.getSelectedFile().toString().split("\\.");
-                if(!selectedFile[1].equals("csv"))
+                if(saveDataFile.getSelectedFile().toString().toLowerCase().endsWith(".csv"))
                 {
-                    JOptionPane.showMessageDialog(null, "Unsupported file type. File type must be '.csv'", "UNSUPPORTED FILE TYPE", JOptionPane.ERROR_MESSAGE);
+                    try(FileWriter customCV = new FileWriter(saveDataFile.getSelectedFile().toString());
+                            BufferedWriter bw = new BufferedWriter(customCV)) 
+                    {
+                        bw.write("Section,"+"Sub Section,"+"Variants");
+                        bw.newLine();
+                        StringBuilder infoBuild = new StringBuilder();
+                        for(String titles : UserGroup.getInstance().getUserInfo().get(0).getUserTitle())
+                        {
+                            infoBuild.append(titles).append(",");
+                        }
+                        infoBuild.deleteCharAt(infoBuild.length()-1);
+                        bw.write("User,"+"Title,"+infoBuild);
+                        bw.newLine();
+                        infoBuild.setLength(0);
+                        for(String name : UserGroup.getInstance().getUserInfo().get(0).getUserName())
+                        {
+                            infoBuild.append(name).append(",");
+                        }
+                        infoBuild.deleteCharAt(infoBuild.length()-1);
+                        bw.write("User,"+"Name,"+infoBuild);
+                        bw.newLine();
+                        infoBuild.setLength(0);
+                        for(String email : UserGroup.getInstance().getUserInfo().get(0).getUserEmail())
+                        {
+                            infoBuild.append(email).append(",");
+                        }
+                        infoBuild.deleteCharAt(infoBuild.length()-1);
+                        bw.write("User,"+"Email,"+infoBuild);
+                        bw.newLine();
+                        infoBuild.setLength(0);
+                        for(String RefereeOne : UserGroup.getInstance().getRefereeInfo().get(0).getReferee1())
+                        {
+                            infoBuild.append(RefereeOne).append(",");
+                        }
+                        infoBuild.deleteCharAt(infoBuild.length()-1);
+                        bw.write("Reference,"+"Referee 1,"+infoBuild);
+                        bw.newLine();
+                        infoBuild.setLength(0);
+                        for(String RefereeTwo : UserGroup.getInstance().getRefereeInfo().get(0).getReferee2())
+                        {
+                            infoBuild.append(RefereeTwo).append(",");
+                        }
+                         bw.write("Reference,"+"Referee 2,"+infoBuild);   
+                    }
+                    catch(IOException c)
+                    {
+                        c.printStackTrace();
+                        System.out.println("File Error");
+                    }
                 }
                 else
                 {
-                 try(FileWriter customCV = new FileWriter(saveDataFile.getSelectedFile().toString());
-                         BufferedWriter bw = new BufferedWriter(customCV)) 
-                 {
-                     bw.write("Section,"+"Sub Section,"+"Variants");
-                     bw.newLine();
-                     StringBuilder infoBuild = new StringBuilder();
-                     for(String titles : UserGroup.getInstance().getUserInfo().get(0).getUserTitle())
-                     {
-                         infoBuild.append(titles).append(",");
-                     }
-                     infoBuild.deleteCharAt(infoBuild.length()-1);
-                     bw.write("User,"+"Title,"+infoBuild);
-                     bw.newLine();
-                     infoBuild.setLength(0);
-                     for(String name : UserGroup.getInstance().getUserInfo().get(0).getUserName())
-                     {
-                         infoBuild.append(name).append(",");
-                     }
-                     infoBuild.deleteCharAt(infoBuild.length()-1);
-                     bw.write("User,"+"Name,"+infoBuild);
-                     bw.newLine();
-                     infoBuild.setLength(0);
-                     for(String email : UserGroup.getInstance().getUserInfo().get(0).getUserEmail())
-                     {
-                         infoBuild.append(email).append(",");
-                     }
-                     infoBuild.deleteCharAt(infoBuild.length()-1);
-                     bw.write("User,"+"Email,"+infoBuild);
-                     bw.newLine();
-                     infoBuild.setLength(0);
-                     for(String RefereeOne : UserGroup.getInstance().getRefereeInfo().get(0).getReferee1())
-                     {
-                         infoBuild.append(RefereeOne).append(",");
-                     }
-                     infoBuild.deleteCharAt(infoBuild.length()-1);
-                     bw.write("Reference,"+"Referee 1,"+infoBuild);
-                     bw.newLine();
-                     infoBuild.setLength(0);
-                     for(String RefereeTwo : UserGroup.getInstance().getRefereeInfo().get(0).getReferee2())
-                     {
-                         infoBuild.append(RefereeTwo).append(",");
-                     }
-                      bw.write("Reference,"+"Referee 2,"+infoBuild);   
-                 }
-                 catch(IOException c)
-                 {
-                     c.printStackTrace();
-                     System.out.println("File Error");
-                 }
-
+                    JOptionPane.showMessageDialog(null, "Unsupported file type. Files must be saved as '.csv' \nand with no spaces", "UNSUPPORTED FILE TYPE", JOptionPane.ERROR_MESSAGE);
                 }
             }
                
            }
        }
-       
-    }
-
+}

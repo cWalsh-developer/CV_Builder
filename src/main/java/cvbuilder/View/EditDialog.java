@@ -5,15 +5,15 @@
 package cvbuilder.View;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import cvbuilder.Model.UserGroup;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -60,6 +60,8 @@ public class EditDialog extends JDialog implements ActionListener
       this.add(this.mainPanel);
       this.add(this.bottomPanel, BorderLayout.SOUTH);
       this.setSize(1000, 300);
+      Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+      this.setLocation(dim.width/2-this.getSize().width/2,dim.height/2-this.getSize().height/2);
   }
     
     /**

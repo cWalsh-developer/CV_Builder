@@ -63,6 +63,7 @@ public class MainViewer extends JFrame implements ActionListener
      *
      * @return
      */
+    
      public static MainViewer getInstance()
     {
         if(instance == null)
@@ -117,4 +118,5 @@ public class MainViewer extends JFrame implements ActionListener
             }
         }
     }
+
 }
