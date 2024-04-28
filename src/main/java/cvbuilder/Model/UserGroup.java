@@ -32,6 +32,7 @@ public class UserGroup
     private String cvSelectedEmail;
     private String cvSelectedReferee1;
     private String cvSelectedReferee2;
+    private String cvTitlePlaceholder;
     private String cvReference1Placeholder;
     private String cvReference2Placeholder;
     private List<Reference> refereeInfo = new ArrayList();
@@ -208,7 +209,6 @@ public class UserGroup
     public void setCvReference2Placeholder(String cvReference2Placeholder) {
         this.cvReference2Placeholder = cvReference2Placeholder;
     }
-    private String cvTitlePlaceholder;
 
     /**
      *

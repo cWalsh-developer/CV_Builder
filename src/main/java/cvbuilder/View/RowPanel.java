@@ -279,10 +279,6 @@ public class RowPanel extends JPanel implements ActionListener
                     this.rowPanelEditor.revalidate();
                     this.rowPanelEditor.repaint();
                 }
-                else
-                {
-                    JOptionPane.getRootFrame().dispose();
-                }
             }
             else
             {
@@ -311,10 +307,7 @@ public class RowPanel extends JPanel implements ActionListener
                     this.rowPanelEditor.revalidate();
                     this.rowPanelEditor.repaint();
                 }
-                else
-                {
-                    JOptionPane.getRootFrame().dispose();
-                }
+
             }
         }
         else if(e.getActionCommand().equals("Radio"))
