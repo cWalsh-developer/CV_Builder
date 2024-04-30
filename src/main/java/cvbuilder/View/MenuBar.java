@@ -90,6 +90,9 @@ public class MenuBar extends JMenuBar implements ActionListener
        else if(e.getActionCommand().equals("Open"))
        {
            this.cvBuild.setLength(0);
+           UserGroup.getInstance().setCvSelectedName(null);
+           UserGroup.getInstance().setCvSelectedTitle(null);
+           UserGroup.getInstance().setCvSelectedEmail(null);
            JFileChooser filePicked = new JFileChooser();
            int returnValue = filePicked.showOpenDialog(this);
            if(returnValue == JFileChooser.APPROVE_OPTION && filePicked.getSelectedFile().exists())
